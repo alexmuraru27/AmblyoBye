@@ -538,6 +538,18 @@ PrefabInstance:
       propertyPath: m_FilterBeta
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 3229012808228254544, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_Antialiasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3229012808228254544, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_AntialiasingQuality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3229012808228254544, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7277802327414017196, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_ClearFlags
       value: 2
