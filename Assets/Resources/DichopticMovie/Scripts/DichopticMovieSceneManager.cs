@@ -25,7 +25,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StorageHandler.InitFS("Movies");
+        StorageHandler.InitFS(TypeSafeDir.Movies);
         // TODO create directories if not existent
         // TODO search for all movies available
         // Populate Settings with the menu
