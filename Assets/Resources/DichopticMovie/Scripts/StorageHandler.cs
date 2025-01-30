@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 public class StorageHandler
 {
 
@@ -26,6 +27,19 @@ public class StorageHandler
         }
         return filePathList;
     }
+
+    public static List<string> GetFileNamesFromDir(TypeSafeDir dirName)
+    {
+        List<string> filePathsList = GetFilePathsFromDir(dirName);
+        List<string> fileNamesList = new List<string>();
+        foreach (string filePath in filePathsList)
+        {
+            fileNamesList.Add(Path.GetFileName(filePath));
+        }
+
+        return fileNamesList;
+    }
+
     public static string AndroidPersistancePathToMovieDir(TypeSafeDir dirName)
     {
         return Application.persistentDataPath + "/../" + dirName;

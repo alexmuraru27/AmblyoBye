@@ -37,13 +37,9 @@ public class DichopticMovieSceneManager : MonoBehaviour
     private void PopulateMovieDropdown()
     {
         StorageHandler.InitFS(TypeSafeDir.Movies);
-        List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
-        Debug.Log(availableMovies);
-        Debug.Log(availableMovies.Count);
-        foreach (string movie in availableMovies)
-        {
-            Debug.Log(movie);
-        }
+        List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
+        movieListDropdown.ClearOptions();
+        movieListDropdown.AddOptions(availableMovies);
         // Populate Settings with the menu
     }
 
