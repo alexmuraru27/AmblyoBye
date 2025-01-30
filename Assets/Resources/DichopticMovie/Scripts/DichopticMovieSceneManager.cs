@@ -97,10 +97,10 @@ public class DichopticMovieSceneManager : MonoBehaviour
             if (filepath.Contains(filename))
             {
                 moviePlayer.source = VideoSource.Url;
-                moviePlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
-                moviePlayer.EnableAudioTrack(0, true);
-                moviePlayer.SetTargetAudioSource(0, moviePlayer.GetComponent<AudioSource>());
-                moviePlayer.controlledAudioTrackCount = 1;
+                // Send audio directly to Quest audio hw
+                moviePlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+                // At least 1 audio track controlled
+                moviePlayer.controlledAudioTrackCount = 5;
                 moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
                 moviePlayer.url = filepath;
                 moviePlayer.Play();
