@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
 using System.Collections.Generic;
+using System.IO.Enumeration;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -87,9 +88,20 @@ public class DichopticMovieSceneManager : MonoBehaviour
         settingsMenuObject.SetActive(!settingsMenuObject.activeSelf);
     }
 
-    public void LoadMovieButtonHandle(TMP_Dropdown movieListDropdownObject)
+    public void LoadMovieButtonHandle()
     {
-
+        List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
+        string filename = movieListDropdown.captionText.text;
+        foreach (string filepath in availableMovies)
+        {
+            if (filepath.Contains(filename))
+            {
+                moviePlayer.source = VideoSource.Url;
+                moviePlayer.url = filepath;
+                moviePlayer.Play();
+                break;
+            }
+        }
     }
 
     IEnumerator RunBlobChangeTimer()
