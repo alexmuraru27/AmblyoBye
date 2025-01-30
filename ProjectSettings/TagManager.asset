@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - BlobClippingSlider
+  - BlobScaleSlider
+  - BlobColorSlider
+  - BlobTimeSlider
+  - BlobEyeFilterToggle
+  - LoadMovieButton
+  - MovieListDropdown
   layers:
   - Default
   - TransparentFX
