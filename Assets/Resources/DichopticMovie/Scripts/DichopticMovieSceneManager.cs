@@ -70,7 +70,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     public void ToggleSettingsMenuVisibility(GameObject settingsMenuObject)
     {
-
+        settingsMenuObject.SetActive(!settingsMenuObject.activeSelf);
     }
 
     public void LoadMovieButtonHandle(TMP_Dropdown movieListDropdownObject)
