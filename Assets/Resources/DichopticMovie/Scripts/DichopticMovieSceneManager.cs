@@ -62,6 +62,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     }
 
+    void ChangeBlobTimerValue(int timerValue)
+    {
+
+    }
+
     void ChangeEyeFilterToggle(bool eyeFilterValue)
     {
 
