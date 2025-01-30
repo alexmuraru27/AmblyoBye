@@ -12,7 +12,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public VideoPlayer moviePlayer;
     [SerializeField]
-    public GameObject dichopticFilter;
+    public Material dichopticFilterMaterial;
 
     [SerializeField]
     public TMP_Dropdown movieListDropdown;
@@ -45,17 +45,23 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     public void ChangeBlobClipping(GameObject clippingObject)
     {
-
+        float blobClipValue = clippingObject.GetComponent<Slider>().value;
+        clippingObject.GetComponentInChildren<TextMeshProUGUI>().text = blobClipValue.ToString("0.00");
+        dichopticFilterMaterial.SetFloat("_BlobClipping", blobClipValue);
     }
 
     public void ChangeBlobScale(GameObject scaleObject)
     {
-
+        float blobScaleValue = scaleObject.GetComponent<Slider>().value;
+        scaleObject.GetComponentInChildren<TextMeshProUGUI>().text = blobScaleValue.ToString("0.00");
+        dichopticFilterMaterial.SetFloat("_BlobScale", blobScaleValue);
     }
 
     public void ChangeBlobGreyValue(GameObject greyObject)
     {
-
+        float greyColorValue = greyObject.GetComponent<Slider>().value;
+        greyObject.GetComponentInChildren<TextMeshProUGUI>().text = greyColorValue.ToString("0");
+        dichopticFilterMaterial.SetColor("_BlobColor", new Color(greyColorValue / 255, greyColorValue / 255, greyColorValue / 255, 0));
     }
 
     public void ChangeBlobTimerValue(GameObject timerObject)
@@ -65,7 +71,8 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     public void ChangeEyeFilterToggle(GameObject eyeFilterObject)
     {
-
+        bool isFilterEyeRight = eyeFilterObject.GetComponent<Toggle>().isOn;
+        dichopticFilterMaterial.SetInt("_SupressingEyeIndex", isFilterEyeRight ? 1 : 0);
     }
 
     public void ToggleSettingsMenuVisibility(GameObject settingsMenuObject)
