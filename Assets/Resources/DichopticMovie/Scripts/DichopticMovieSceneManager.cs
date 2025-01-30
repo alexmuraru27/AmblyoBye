@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -17,9 +18,13 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public TMP_Dropdown movieListDropdown;
 
+    private float timerValue;
+    private float timerStep = 10;
+
     void Awake()
     {
         Instance = this;
+        StartCoroutine(RunBlobChangeTimer());
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -66,7 +71,9 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     public void ChangeBlobTimerValue(GameObject timerObject)
     {
-
+        float blobTimerValue = timerObject.GetComponent<Slider>().value;
+        timerStep = blobTimerValue;
+        timerObject.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0");
     }
 
     public void ChangeEyeFilterToggle(GameObject eyeFilterObject)
@@ -83,5 +90,15 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void LoadMovieButtonHandle(TMP_Dropdown movieListDropdownObject)
     {
 
+    }
+
+    IEnumerator RunBlobChangeTimer()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(timerStep);
+            timerValue += 1;
+            dichopticFilterMaterial.SetVector("_BlobOffset", new Vector2(timerValue, (int)timerValue / 10));
+        }
     }
 }
