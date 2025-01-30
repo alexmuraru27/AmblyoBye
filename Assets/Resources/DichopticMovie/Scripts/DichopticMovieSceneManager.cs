@@ -47,37 +47,37 @@ public class DichopticMovieSceneManager : MonoBehaviour
         // Populate Settings with the menu
     }
 
-    public void ChangeBlobClipping(float clippingValue)
+    public void ChangeBlobClipping(GameObject clippingObject)
     {
 
     }
 
-    public void ChangeBlobScale(float scaleValue)
+    public void ChangeBlobScale(GameObject scaleObject)
     {
 
     }
 
-    public void ChangeBlobGreyValue(int greyValue)
+    public void ChangeBlobGreyValue(GameObject greyObject)
     {
 
     }
 
-    public void ChangeBlobTimerValue(int timerValue)
+    public void ChangeBlobTimerValue(GameObject timerObject)
     {
 
     }
 
-    public void ChangeEyeFilterToggle(GameObject eyeFilterValue)
+    public void ChangeEyeFilterToggle(GameObject eyeFilterObject)
     {
 
     }
 
-    public void ToggleSettingsMenuVisibility(GameObject settingsMenu)
+    public void ToggleSettingsMenuVisibility(GameObject settingsMenuObject)
     {
 
     }
 
-    public void LoadMovieButtonHandle()
+    public void LoadMovieButtonHandle(TMP_Dropdown movieListDropdownObject)
     {
 
     }
