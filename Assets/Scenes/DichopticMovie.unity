@@ -775,7 +775,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1373913116982684239, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: BlobColorSlider
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1373913117307795931, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMax.x
@@ -827,7 +827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2279315823463886770, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: MovieListDropdown
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2336755093320268217, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_Size
@@ -859,7 +859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2835928419894594444, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: BlobClippingSlider
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2835928420144207896, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMax.x
@@ -919,7 +919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3660928612483397354, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: LoadMovieButton
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6320938629273148108, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMax.x
@@ -935,7 +935,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6320938629354907985, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: BlobScaleSlider
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6320938629709413061, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMax.x
@@ -995,7 +995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7082570794498007239, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: BlobTimeSlider
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7082570794588214106, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1019,7 +1019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7377706625464849949, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_TagString
-      value: BlobEyeFilterToggle
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8028597961760251844, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMax.y
