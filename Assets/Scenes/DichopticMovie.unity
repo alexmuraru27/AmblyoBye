@@ -417,6 +417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingsButton
       objectReference: {fileID: 0}
+    - target: {fileID: 4130446525441481719, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4357483027526120717, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
