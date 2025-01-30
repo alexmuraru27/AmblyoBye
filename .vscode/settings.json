@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "AmblyoBye.sln"
+    "dotnet.defaultSolution": "AmblyoBye.sln",
+    "editor.formatOnSave": true
 }

@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 116574807}
-  - component: {fileID: 116574806}
+  - component: {fileID: 116574808}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -136,18 +136,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &116574806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116574805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c0310349f1b7694f8d7ce57394ef514, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &116574807
 Transform:
   m_ObjectHideFlags: 0
@@ -163,10 +151,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &116574808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116574805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0310349f1b7694f8d7ce57394ef514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moviePlayer: {fileID: 298591707}
+  dichopticFilter: {fileID: 1405510619}
+  movieListDropdown: {fileID: 760817183}
+--- !u!328 &298591707 stripped
+VideoPlayer:
+  m_CorrespondingSourceObject: {fileID: 8262226940332450157, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+  m_PrefabInstance: {fileID: 2656376880475479910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &760817183 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2195993161733773003, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
+  m_PrefabInstance: {fileID: 5524335281156788111}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &807051348 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 585530789439697949, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
   m_PrefabInstance: {fileID: 5524335281156788111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1405510619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1809748424436303453, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+  m_PrefabInstance: {fileID: 2656376880475479910}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2046629158
 GameObject:
@@ -760,6 +784,10 @@ PrefabInstance:
     - target: {fileID: 2250289315324370870, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2279315823463886770, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
+      propertyPath: m_Name
+      value: Movie Dropdown
       objectReference: {fileID: 0}
     - target: {fileID: 2336755093320268217, guid: 2cfe4705afb3d2b47a803467f5d8fbed, type: 3}
       propertyPath: m_Size
