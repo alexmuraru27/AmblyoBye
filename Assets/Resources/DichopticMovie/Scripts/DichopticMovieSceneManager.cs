@@ -97,6 +97,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
             if (filepath.Contains(filename))
             {
                 moviePlayer.source = VideoSource.Url;
+                moviePlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+                moviePlayer.EnableAudioTrack(0, true);
+                moviePlayer.SetTargetAudioSource(0, moviePlayer.GetComponent<AudioSource>());
+                moviePlayer.controlledAudioTrackCount = 1;
+                moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
                 moviePlayer.url = filepath;
                 moviePlayer.Play();
                 break;

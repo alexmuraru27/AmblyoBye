@@ -549,6 +549,10 @@ PrefabInstance:
       propertyPath: m_DataSource
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8262226940332450157, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_AudioOutputMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8307257795480341072, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_Name
       value: MoviePlayer
