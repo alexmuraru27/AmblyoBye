@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
-
+using System.Collections.Generic;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -25,16 +25,26 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StorageHandler.InitFS(TypeSafeDir.Movies);
-        // TODO create directories if not existent
-        // TODO search for all movies available
-        // Populate Settings with the menu
+        PopulateMovieDropdown();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    void PopulateMovieDropdown()
+    {
+        StorageHandler.InitFS(TypeSafeDir.Movies);
+        List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
+        Debug.Log(availableMovies);
+        Debug.Log(availableMovies.Count);
+        foreach (string movie in availableMovies)
+        {
+            Debug.Log(movie);
+        }
+        // Populate Settings with the menu
     }
 
     void ChangeBlobClipping(int clippingValue)
@@ -53,6 +63,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
     }
 
     void ChangeEyeFilterToggle(bool eyeFilterValue)
+    {
+
+    }
+
+    void ToggleSettingsMenuVisibility()
     {
 
     }

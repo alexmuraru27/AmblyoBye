@@ -7,8 +7,6 @@ public class StorageHandler
 
     public static void InitFS(TypeSafeDir dirName)
     {
-        Debug.Log(Application.persistentDataPath);
-
         string dirPath = AndroidPersistancePathToMovieDir(dirName);
         if (!Directory.Exists(dirPath))
         {
@@ -23,7 +21,7 @@ public class StorageHandler
         string dirPath = AndroidPersistancePathToMovieDir(dirName);
         if (Directory.Exists(dirPath))
         {
-            string[] allfiles = Directory.GetFiles("path/to/dir", "*.*", SearchOption.AllDirectories);
+            string[] allfiles = Directory.GetFiles(dirPath, "*.*", SearchOption.AllDirectories);
             filePathList.AddRange(allfiles);
         }
         return filePathList;
