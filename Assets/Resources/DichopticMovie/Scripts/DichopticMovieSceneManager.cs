@@ -34,7 +34,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     }
 
-    void PopulateMovieDropdown()
+    private void PopulateMovieDropdown()
     {
         StorageHandler.InitFS(TypeSafeDir.Movies);
         List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
@@ -47,37 +47,37 @@ public class DichopticMovieSceneManager : MonoBehaviour
         // Populate Settings with the menu
     }
 
-    void ChangeBlobClipping(int clippingValue)
+    public void ChangeBlobClipping(float clippingValue)
     {
 
     }
 
-    void ChangeBlobScale(int scaleValue)
+    public void ChangeBlobScale(float scaleValue)
     {
 
     }
 
-    void ChangeBlobGreyValue(int greyValue)
+    public void ChangeBlobGreyValue(int greyValue)
     {
 
     }
 
-    void ChangeBlobTimerValue(int timerValue)
+    public void ChangeBlobTimerValue(int timerValue)
     {
 
     }
 
-    void ChangeEyeFilterToggle(bool eyeFilterValue)
+    public void ChangeEyeFilterToggle(GameObject eyeFilterValue)
     {
 
     }
 
-    void ToggleSettingsMenuVisibility()
+    public void ToggleSettingsMenuVisibility(GameObject settingsMenu)
     {
 
     }
 
-    void LoadMovieButtonHandle()
+    public void LoadMovieButtonHandle()
     {
 
     }
