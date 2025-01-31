@@ -33,7 +33,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public GameObject blobEyeIndexToggle;
 
-    private DichopticMovieSettingsManager settingsManager;
+    private DichopticMovieSettingsManager settingsManager = null;
 
     private float timerValue;
     private float timerStep = 10;
@@ -64,11 +64,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
                                                     blobGrayColorSlider.GetComponent<Slider>().value,
                                                     blobTimerSlider.GetComponent<Slider>().value,
                                                     blobEyeIndexToggle.GetComponent<Toggle>().isOn);
-        // If old settings are not existing or they are incompatible with the new structure, persist the new ones initially
-        if (!settingsManager.RestoreSettings())
-        {
-            settingsManager.PersistSettings();
-        }
 
         HandleChangeBlobClipping(settingsManager.GetBlobClipValue());
         HandleChangeBlobScale(settingsManager.GetBlobScaleValue());
@@ -95,7 +90,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ChangeBlobClipping()
     {
         float blobClippingValue = blobClippingSlider.GetComponent<Slider>().value;
-        settingsManager.SetBlobClipValue(blobClippingValue);
+        settingsManager?.SetBlobClipValue(blobClippingValue);
         HandleChangeBlobClipping(blobClippingValue);
     }
 
@@ -108,7 +103,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ChangeBlobScale()
     {
         float blobScaleValue = blobScaleSlider.GetComponent<Slider>().value;
-        settingsManager.SetBlobScaleValue(blobScaleValue);
+        settingsManager?.SetBlobScaleValue(blobScaleValue);
         HandleChangeBlobScale(blobScaleValue);
     }
 
@@ -122,7 +117,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ChangeBlobGreyValue()
     {
         float greyColorValue = blobGrayColorSlider.GetComponent<Slider>().value;
-        settingsManager.SetBlobGreyColorValue(greyColorValue);
+        settingsManager?.SetBlobGreyColorValue(greyColorValue);
         HandleChangeBlobGreyValue(greyColorValue);
     }
 
@@ -135,7 +130,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ChangeBlobTimerValue()
     {
         float blobTimerValue = blobTimerSlider.GetComponent<Slider>().value;
-        settingsManager.SetBlobTimerValue(blobTimerValue);
+        settingsManager?.SetBlobTimerValue(blobTimerValue);
         HandleChangeBlobTimerValue(blobTimerValue);
     }
 
@@ -148,7 +143,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ChangeEyeFilterToggle()
     {
         bool isFilterEyeRight = blobEyeIndexToggle.GetComponent<Toggle>().isOn;
-        settingsManager.SetIsFilterEyeRight(isFilterEyeRight);
+        settingsManager?.SetIsFilterEyeRight(isFilterEyeRight);
         HandleChangeEyeFilterToggle(isFilterEyeRight);
     }
 

@@ -26,50 +26,51 @@ public class DichopticMovieSettingsManager
             BlobTimerValue = blobTimerValue,
             IsFilterEyeRight = isFilterEyeRight
         };
+        if (!RestoreSettings())
+        {
+            StoreSettings();
+        }
     }
 
-    public void PersistSettings()
+    public void StoreSettings()
     {
-        // Persist straight away the settingsStruct
+        SettingsHandler.StoreSettings(SETTINGS_FILENAME, dichopticMovieSettings);
     }
 
     public bool RestoreSettings()
     {
-        bool isSuccessfullyRestored = false;
-
-        // TODO try to read from SettingsHandler, if something goes wrong -> isSuccessfullyRestored stays false and we persist the default settings
-        return isSuccessfullyRestored;
+        return SettingsHandler.RestoreSettings(SETTINGS_FILENAME, ref dichopticMovieSettings);
     }
 
 
     public void SetBlobClipValue(float value)
     {
         dichopticMovieSettings.BlobClipValue = value;
-        PersistSettings();
+        StoreSettings();
     }
 
     public void SetBlobScaleValue(float value)
     {
         dichopticMovieSettings.BlobScaleValue = value;
-        PersistSettings();
+        StoreSettings();
     }
 
     public void SetBlobGreyColorValue(float value)
     {
         dichopticMovieSettings.BlobGreyColorValue = value;
-        PersistSettings();
+        StoreSettings();
     }
 
     public void SetBlobTimerValue(float value)
     {
         dichopticMovieSettings.BlobTimerValue = value;
-        PersistSettings();
+        StoreSettings();
     }
 
     public void SetIsFilterEyeRight(bool value)
     {
         dichopticMovieSettings.IsFilterEyeRight = value;
-        PersistSettings();
+        StoreSettings();
     }
 
     public float GetBlobClipValue()
