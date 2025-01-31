@@ -6,16 +6,17 @@ public class SettingsHandler
 {
     public static bool StoreSettings<T>(string filename, T objectData) where T : struct
     {
+        StorageHandler.EnsureDirectory(TypeSafeDir.Settings);
         bool isSuccess = true;
-
+        // TODO
         return isSuccess;
     }
 
     public static bool RestoreSettings<T>(string filename, ref T objectData) where T : struct
     {
+        StorageHandler.EnsureDirectory(TypeSafeDir.Settings);
         bool isSuccess = true;
-
-
+        // TODO
         return isSuccess;
     }
     // Pass the filename

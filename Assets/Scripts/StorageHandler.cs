@@ -6,7 +6,7 @@ using System.Linq;
 public class StorageHandler
 {
 
-    public static void InitFS(TypeSafeDir dirName)
+    public static void EnsureDirectory(TypeSafeDir dirName)
     {
         string dirPath = AndroidPersistancePathToMovieDir(dirName);
         if (!Directory.Exists(dirPath))
@@ -44,10 +44,6 @@ public class StorageHandler
     {
         return Application.persistentDataPath + "/../" + dirName;
     }
-
-
-    // TODO create directories if not existent
-    // TODO search for all movies available
 }
 
 // Typesafe directories
