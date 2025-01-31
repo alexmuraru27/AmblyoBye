@@ -100,11 +100,11 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BlobClipping: 0.47462618
+    - _BlobClipping: 0.33778366
     - _BlobOffset: 6.54
     - _BlobOffset_1: 40.39
     - _BlobRandomOffset: 6.8
-    - _BlobScale: 1.9841878
+    - _BlobScale: 5.4833627
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -136,8 +136,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BlobColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 0}
-    - _BlobOffset: {r: 4, g: 0, b: 0, a: 0}
+    - _BlobColor: {r: 0.36078432, g: 0.36078432, b: 0.36078432, a: 0}
+    - _BlobOffset: {r: 7, g: 0, b: 0, a: 0}
     - _BlobStretch: {r: 1.8, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

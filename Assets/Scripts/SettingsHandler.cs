@@ -1,10 +1,7 @@
 using System;
 using System.Xml.Serialization;
-using Palmmedia.ReportGenerator.Core.Common;
 using UnityEngine;
-using UnityEngine.Rendering;
 using System.IO;
-using System.Collections.Generic;
 public class SettingsHandler
 {
     public static void StoreSettings<T>(string filename, T objectData) where T : struct
