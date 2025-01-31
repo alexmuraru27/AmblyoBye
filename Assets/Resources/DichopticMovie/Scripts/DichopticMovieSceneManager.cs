@@ -97,6 +97,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     private void HandleChangeBlobClipping(float blobClipValue)
     {
         blobClippingSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobClipValue.ToString("0.00");
+        blobClippingSlider.GetComponent<Slider>().value = blobClipValue;
         dichopticFilterMaterial.SetFloat("_BlobClipping", blobClipValue);
     }
 
@@ -110,6 +111,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     private void HandleChangeBlobScale(float blobScaleValue)
     {
         blobScaleSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobScaleValue.ToString("0.00");
+        blobScaleSlider.GetComponent<Slider>().value = blobScaleValue;
         dichopticFilterMaterial.SetFloat("_BlobScale", blobScaleValue);
     }
 
@@ -123,6 +125,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     private void HandleChangeBlobGreyValue(float greyColorValue)
     {
+        blobGrayColorSlider.GetComponent<Slider>().value = greyColorValue;
         blobGrayColorSlider.GetComponentInChildren<TextMeshProUGUI>().text = greyColorValue.ToString("0");
         dichopticFilterMaterial.SetColor("_BlobColor", new Color(greyColorValue / 255, greyColorValue / 255, greyColorValue / 255, 0));
     }
@@ -136,6 +139,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     private void HandleChangeBlobTimerValue(float blobTimerValue)
     {
+        blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
         timerStep = blobTimerValue;
         blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0");
     }
@@ -149,6 +153,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     private void HandleChangeEyeFilterToggle(bool isFilterEyeRight)
     {
+        blobEyeIndexToggle.GetComponent<Toggle>().isOn = isFilterEyeRight;
         dichopticFilterMaterial.SetInt("_SupressingEyeIndex", isFilterEyeRight ? 1 : 0);
     }
 
