@@ -5,6 +5,7 @@ using UnityEngine.Video;
 using TMPro;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -160,6 +161,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ToggleSettingsMenuVisibility(GameObject settingsMenuObject)
     {
         settingsMenuObject.SetActive(!settingsMenuObject.activeSelf);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("Scenes/MainMenuScene");
     }
 
     public void LoadMovieButtonHandle()
