@@ -18,6 +18,21 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public TMP_Dropdown movieListDropdown;
 
+    [SerializeField]
+    public GameObject blobClippingSlider;
+
+    [SerializeField]
+    public GameObject blobScaleSlider;
+
+    [SerializeField]
+    public GameObject blobGrayColorSlider;
+
+    [SerializeField]
+    public GameObject blobTimerSlider;
+
+    [SerializeField]
+    public GameObject blobEyeIndexToggle;
+
     private float timerValue;
     private float timerStep = 10;
 
@@ -54,37 +69,37 @@ public class DichopticMovieSceneManager : MonoBehaviour
         }
     }
 
-    public void ChangeBlobClipping(GameObject clippingObject)
+    public void ChangeBlobClipping()
     {
-        float blobClipValue = clippingObject.GetComponent<Slider>().value;
-        clippingObject.GetComponentInChildren<TextMeshProUGUI>().text = blobClipValue.ToString("0.00");
+        float blobClipValue = blobClippingSlider.GetComponent<Slider>().value;
+        blobClippingSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobClipValue.ToString("0.00");
         dichopticFilterMaterial.SetFloat("_BlobClipping", blobClipValue);
     }
 
-    public void ChangeBlobScale(GameObject scaleObject)
+    public void ChangeBlobScale()
     {
-        float blobScaleValue = scaleObject.GetComponent<Slider>().value;
-        scaleObject.GetComponentInChildren<TextMeshProUGUI>().text = blobScaleValue.ToString("0.00");
+        float blobScaleValue = blobScaleSlider.GetComponent<Slider>().value;
+        blobScaleSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobScaleValue.ToString("0.00");
         dichopticFilterMaterial.SetFloat("_BlobScale", blobScaleValue);
     }
 
-    public void ChangeBlobGreyValue(GameObject greyObject)
+    public void ChangeBlobGreyValue()
     {
-        float greyColorValue = greyObject.GetComponent<Slider>().value;
-        greyObject.GetComponentInChildren<TextMeshProUGUI>().text = greyColorValue.ToString("0");
+        float greyColorValue = blobGrayColorSlider.GetComponent<Slider>().value;
+        blobGrayColorSlider.GetComponentInChildren<TextMeshProUGUI>().text = greyColorValue.ToString("0");
         dichopticFilterMaterial.SetColor("_BlobColor", new Color(greyColorValue / 255, greyColorValue / 255, greyColorValue / 255, 0));
     }
 
-    public void ChangeBlobTimerValue(GameObject timerObject)
+    public void ChangeBlobTimerValue()
     {
-        float blobTimerValue = timerObject.GetComponent<Slider>().value;
+        float blobTimerValue = blobTimerSlider.GetComponent<Slider>().value;
         timerStep = blobTimerValue;
-        timerObject.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0");
+        blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0");
     }
 
-    public void ChangeEyeFilterToggle(GameObject eyeFilterObject)
+    public void ChangeEyeFilterToggle()
     {
-        bool isFilterEyeRight = eyeFilterObject.GetComponent<Toggle>().isOn;
+        bool isFilterEyeRight = blobEyeIndexToggle.GetComponent<Toggle>().isOn;
         dichopticFilterMaterial.SetInt("_SupressingEyeIndex", isFilterEyeRight ? 1 : 0);
     }
 
