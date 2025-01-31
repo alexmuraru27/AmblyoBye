@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 55daccc09a3b69647bbab145b54a3ab3
+  - enabled: 1
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: fa2cc1a81a9a6a24894ddbe46da40f99
   - enabled: 1
     path: Assets/Scenes/DichopticMovie.unity
     guid: 33fa23b9cf2838842b813288501eaecd
