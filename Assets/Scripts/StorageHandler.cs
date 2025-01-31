@@ -8,7 +8,7 @@ public class StorageHandler
 
     public static void EnsureDirectory(TypeSafeDir dirName)
     {
-        string dirPath = AndroidPersistancePathToMovieDir(dirName);
+        string dirPath = AndroidPersistancePathToDir(dirName);
         if (!Directory.Exists(dirPath))
         {
             Directory.CreateDirectory(dirPath);
@@ -19,7 +19,7 @@ public class StorageHandler
     public static List<string> GetFilePathsFromDir(TypeSafeDir dirName)
     {
         List<string> filePathList = new List<string>();
-        string dirPath = AndroidPersistancePathToMovieDir(dirName);
+        string dirPath = AndroidPersistancePathToDir(dirName);
         if (Directory.Exists(dirPath))
         {
             string[] allfiles = Directory.GetFiles(dirPath, "*.*", SearchOption.AllDirectories);
@@ -40,9 +40,50 @@ public class StorageHandler
         return fileNamesList;
     }
 
-    public static string AndroidPersistancePathToMovieDir(TypeSafeDir dirName)
+    public static string AndroidPersistancePathToDir(TypeSafeDir dirName)
     {
         return Application.persistentDataPath + "/../" + dirName;
+    }
+
+    // returns tuple <bool, string> -> isFile, content
+    public static Tuple<bool, string> ReadFile(TypeSafeDir dirName, string filename)
+    {
+        EnsureDirectory(dirName);
+        bool isFile = false;
+        string fileContent = "";
+        string filePath = Path.Join(dirName.Value, filename);
+
+        if (File.Exists(filePath))
+        {
+            try
+            {
+                fileContent = File.ReadAllText(filePath);
+                isFile = true;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"An error occurred while reading the file: {ex.Message}");
+            }
+        }
+        else
+        {
+            Debug.Log($"The file {filePath} does not exist.");
+        }
+        return new Tuple<bool, string>(isFile, fileContent);
+    }
+
+    public static void WriteFile(TypeSafeDir dirName, string filename, string content)
+    {
+        EnsureDirectory(dirName);
+        string filePath = Path.Join(dirName.Value, filename);
+        try
+        {
+            File.WriteAllText(filePath, content);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log($"An error occurred while writing the file: {ex.Message}");
+        }
     }
 }
 

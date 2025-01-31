@@ -39,14 +39,14 @@ public class DichopticMovieSettingsManager
 
     public bool RestoreSettings()
     {
+        bool isSuccess = false;
         DichopticMovieSettingsStruct tempStruct = new();
         if (SettingsHandler.RestoreSettings(SETTINGS_FILENAME, ref tempStruct))
         {
             dichopticMovieSettings = tempStruct;
-            return true;
+            isSuccess = true;
         }
-        return false;
-
+        return isSuccess;
     }
 
 

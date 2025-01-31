@@ -1,27 +1,41 @@
 using System;
+using System.Xml.Serialization;
+using Palmmedia.ReportGenerator.Core.Common;
 using UnityEngine;
 using UnityEngine.Rendering;
-
+using System.IO;
 public class SettingsHandler
 {
-    public static bool StoreSettings<T>(string filename, T objectData) where T : struct
+    public static void StoreSettings<T>(string filename, T objectData) where T : struct
     {
-        StorageHandler.EnsureDirectory(TypeSafeDir.Settings);
-        bool isSuccess = true;
-        // TODO
-        return isSuccess;
+        XmlSerializer serializer = new XmlSerializer(typeof(T));
+        using (StringWriter writer = new StringWriter())
+        {
+            serializer.Serialize(writer, objectData);
+            StorageHandler.WriteFile(TypeSafeDir.Settings, filename, writer.ToString());
+        }
     }
 
     public static bool RestoreSettings<T>(string filename, ref T objectData) where T : struct
     {
-        StorageHandler.EnsureDirectory(TypeSafeDir.Settings);
-        bool isSuccess = true;
-        // TODO
+        bool isSuccess = false;
+        Tuple<bool, string> fileData = StorageHandler.ReadFile(TypeSafeDir.Settings, filename);
+        if (fileData.Item1)
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                using (StringReader reader = new StringReader(fileData.Item2))
+                {
+                    objectData = (T)serializer.Deserialize(reader);
+                    isSuccess = true;
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.Log($"Deserialization error: {ex.Message}");
+            }
+        }
         return isSuccess;
     }
-    // Pass the filename
-    // Use StorageHandler to create files
-    // Read/Write file content using StorageHandler
-    // Read/Write settings structure based (structure type is always passed as template argument) -> structure is serialized
-    // Shall ensure that the data in the file is compatible -> if not shall override the old data with new/return something invalid
 }
