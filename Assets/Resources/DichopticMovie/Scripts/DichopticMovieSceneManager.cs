@@ -1,11 +1,10 @@
-using System.ComponentModel;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using TMPro;
 using System.Collections.Generic;
-using System.IO.Enumeration;
+using System.IO;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -44,9 +43,15 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         StorageHandler.InitFS(TypeSafeDir.Movies);
         List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
+        List<string> allowedExtensions = new() { ".asf", ".avi", ".dv", ".m4v", ".mp4", ".mov", ".mpg", ".mpeg", ".m4v", ".ogv", ".vp8", ".webm", ".wmv" };
         movieListDropdown.ClearOptions();
-        movieListDropdown.AddOptions(availableMovies);
-        // Populate Settings with the menu
+        foreach (string movieFileName in availableMovies)
+        {
+            if (allowedExtensions.Contains(Path.GetExtension(movieFileName)))
+            {
+                movieListDropdown.AddOptions(new List<string> { movieFileName });
+            }
+        }
     }
 
     public void ChangeBlobClipping(GameObject clippingObject)
@@ -91,16 +96,16 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void LoadMovieButtonHandle()
     {
         List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
-        string filename = movieListDropdown.captionText.text;
+        string selectedFilename = movieListDropdown.captionText.text;
         foreach (string filepath in availableMovies)
         {
-            if (filepath.Contains(filename))
+            if (filepath.Contains(selectedFilename))
             {
                 moviePlayer.source = VideoSource.Url;
                 // Send audio directly to Quest audio hw
                 moviePlayer.audioOutputMode = VideoAudioOutputMode.Direct;
                 // At least 1 audio track controlled
-                moviePlayer.controlledAudioTrackCount = 5;
+                moviePlayer.controlledAudioTrackCount = 1;
                 moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
                 moviePlayer.url = filepath;
                 moviePlayer.Play();
