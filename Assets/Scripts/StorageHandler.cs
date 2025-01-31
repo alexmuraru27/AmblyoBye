@@ -45,13 +45,14 @@ public class StorageHandler
         return Application.persistentDataPath + "/../" + dirName;
     }
 
+
     // returns tuple <bool, string> -> isFile, content
     public static Tuple<bool, string> ReadFile(TypeSafeDir dirName, string filename)
     {
         EnsureDirectory(dirName);
         bool isFile = false;
         string fileContent = "";
-        string filePath = Path.Join(dirName.Value, filename);
+        string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
 
         if (File.Exists(filePath))
         {
@@ -65,17 +66,13 @@ public class StorageHandler
                 Debug.Log($"An error occurred while reading the file: {ex.Message}");
             }
         }
-        else
-        {
-            Debug.Log($"The file {filePath} does not exist.");
-        }
         return new Tuple<bool, string>(isFile, fileContent);
     }
 
     public static void WriteFile(TypeSafeDir dirName, string filename, string content)
     {
         EnsureDirectory(dirName);
-        string filePath = Path.Join(dirName.Value, filename);
+        string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
         try
         {
             File.WriteAllText(filePath, content);
