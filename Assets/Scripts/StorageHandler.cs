@@ -59,6 +59,8 @@ public class TypeSafeDir
 
     public static TypeSafeDir Movies { get { return new TypeSafeDir("Movies"); } }
 
+    public static TypeSafeDir Settings { get { return new TypeSafeDir("Settings"); } }
+
     public override string ToString()
     {
         return Value;
