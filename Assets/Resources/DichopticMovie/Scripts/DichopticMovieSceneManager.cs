@@ -6,6 +6,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
+using System;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -78,7 +79,10 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         StorageHandler.InitDirectoryTree();
         List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
+        // Order by name ignoring the case
+        availableMovies.Sort(StringComparer.OrdinalIgnoreCase);
         List<string> allowedExtensions = new() { ".asf", ".avi", ".dv", ".m4v", ".mp4", ".mov", ".mpg", ".mpeg", ".m4v", ".ogv", ".vp8", ".webm", ".wmv" };
+
         movieListDropdown.ClearOptions();
         movieListDropdown.AddOptions(new List<string> { EMPTY_MOVIE_NAME });
         foreach (string movieFileName in availableMovies)
