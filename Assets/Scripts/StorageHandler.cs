@@ -4,17 +4,17 @@ using System.IO;
 using System.Collections.Generic;
 public class StorageHandler
 {
-
-    public static void EnsureDirectory(TypeSafeDir dirName)
+    public static void InitAllFS()
     {
-        string dirPath = AndroidPersistancePathToDir(dirName);
-        if (!Directory.Exists(dirPath))
+        foreach (TypeSafeDir typeSafeDir in TypeSafeDir.getAllDirs())
         {
-            Directory.CreateDirectory(dirPath);
+            string dirPath = AndroidPersistancePathToDir(typeSafeDir);
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
         }
-
     }
-
     public static List<string> GetFilePathsFromDir(TypeSafeDir dirName)
     {
         List<string> filePathList = new List<string>();
@@ -48,7 +48,7 @@ public class StorageHandler
     // returns tuple <bool, string> -> isFile, content
     public static Tuple<bool, string> ReadFile(TypeSafeDir dirName, string filename)
     {
-        EnsureDirectory(dirName);
+        InitAllFS();
         bool isFile = false;
         string fileContent = "";
         string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
@@ -70,7 +70,7 @@ public class StorageHandler
 
     public static void WriteFile(TypeSafeDir dirName, string filename, string content)
     {
-        EnsureDirectory(dirName);
+        InitAllFS();
         string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
         try
         {
@@ -94,6 +94,10 @@ public class TypeSafeDir
 
     public static TypeSafeDir Settings { get { return new TypeSafeDir("Settings"); } }
 
+    public static List<TypeSafeDir> getAllDirs()
+    {
+        return new List<TypeSafeDir>() { Movies, Settings };
+    }
     public override string ToString()
     {
         return Value;
