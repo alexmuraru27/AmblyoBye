@@ -410,6 +410,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 255.6
       objectReference: {fileID: 0}
+    - target: {fileID: 1891252455923063592, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891252455923063592, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 1891252455923063592, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6509804
+      objectReference: {fileID: 0}
     - target: {fileID: 3427258583473244482, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -421,6 +433,18 @@ PrefabInstance:
     - target: {fileID: 3595935785547619148, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_Name
       value: SettingsButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849546229539247312, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849546229539247312, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849546229539247312, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6509434
       objectReference: {fileID: 0}
     - target: {fileID: 4130446525441481719, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -565,6 +589,14 @@ PrefabInstance:
     - target: {fileID: 6234542663675311428, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880689566500665278, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880689566500665278, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7942312007027778312, guid: d2a64f80ffe1ff544a669585ca34bbf3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
