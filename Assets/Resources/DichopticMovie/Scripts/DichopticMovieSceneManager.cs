@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
+    private string EMPTY_MOVIE_NAME = "";
     public static DichopticMovieSceneManager Instance;
 
     [SerializeField]
@@ -79,6 +80,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
         List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
         List<string> allowedExtensions = new() { ".asf", ".avi", ".dv", ".m4v", ".mp4", ".mov", ".mpg", ".mpeg", ".m4v", ".ogv", ".vp8", ".webm", ".wmv" };
         movieListDropdown.ClearOptions();
+        movieListDropdown.AddOptions(new List<string> { EMPTY_MOVIE_NAME });
         foreach (string movieFileName in availableMovies)
         {
             if (allowedExtensions.Contains(Path.GetExtension(movieFileName)))
@@ -170,21 +172,24 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     public void LoadMovieButtonHandle()
     {
-        List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
         string selectedFilename = movieListDropdown.captionText.text;
-        foreach (string filepath in availableMovies)
+        if (selectedFilename != EMPTY_MOVIE_NAME)
         {
-            if (filepath.Contains(selectedFilename))
+            List<string> availableMovies = StorageHandler.GetFilePathsFromDir(TypeSafeDir.Movies);
+            foreach (string filepath in availableMovies)
             {
-                moviePlayer.source = VideoSource.Url;
-                // Send audio directly to Quest audio hw
-                moviePlayer.audioOutputMode = VideoAudioOutputMode.Direct;
-                // At least 1 audio track controlled
-                moviePlayer.controlledAudioTrackCount = 1;
-                moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
-                moviePlayer.url = filepath;
-                moviePlayer.Play();
-                break;
+                if (filepath.Contains(selectedFilename))
+                {
+                    moviePlayer.source = VideoSource.Url;
+                    // Send audio directly to Quest audio hw
+                    moviePlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+                    // At least 1 audio track controlled
+                    moviePlayer.controlledAudioTrackCount = 1;
+                    moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
+                    moviePlayer.url = filepath;
+                    moviePlayer.Play();
+                    break;
+                }
             }
         }
     }
