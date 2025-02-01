@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 public class StorageHandler
 {
-    public static void InitAllFS()
+    public static void InitDirectoryTree()
     {
         foreach (TypeSafeDir typeSafeDir in TypeSafeDir.getAllDirs())
         {
@@ -48,7 +48,7 @@ public class StorageHandler
     // returns tuple <bool, string> -> isFile, content
     public static Tuple<bool, string> ReadFile(TypeSafeDir dirName, string filename)
     {
-        InitAllFS();
+        InitDirectoryTree();
         bool isFile = false;
         string fileContent = "";
         string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
@@ -70,7 +70,7 @@ public class StorageHandler
 
     public static void WriteFile(TypeSafeDir dirName, string filename, string content)
     {
-        InitAllFS();
+        InitDirectoryTree();
         string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
         try
         {

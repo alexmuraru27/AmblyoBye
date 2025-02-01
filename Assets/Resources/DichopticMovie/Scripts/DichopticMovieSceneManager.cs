@@ -76,7 +76,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     private void PopulateMovieDropdown()
     {
-        StorageHandler.InitAllFS();
+        StorageHandler.InitDirectoryTree();
         List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
         List<string> allowedExtensions = new() { ".asf", ".avi", ".dv", ".m4v", ".mp4", ".mov", ".mpg", ".mpeg", ".m4v", ".ogv", ".vp8", ".webm", ".wmv" };
         movieListDropdown.ClearOptions();

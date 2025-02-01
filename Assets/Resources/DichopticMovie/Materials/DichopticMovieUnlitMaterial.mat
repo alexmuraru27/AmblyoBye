@@ -100,7 +100,7 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BlobClipping: 0.33778366
+    - _BlobClipping: 0.44347143
     - _BlobOffset: 6.54
     - _BlobOffset_1: 40.39
     - _BlobRandomOffset: 6.8
@@ -137,7 +137,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BlobColor: {r: 0.36078432, g: 0.36078432, b: 0.36078432, a: 0}
-    - _BlobOffset: {r: 56, g: 5, b: 0, a: 0}
+    - _BlobOffset: {r: 5, g: 0, b: 0, a: 0}
     - _BlobStretch: {r: 1.8, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

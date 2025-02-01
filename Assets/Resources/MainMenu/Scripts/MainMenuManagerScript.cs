@@ -6,7 +6,7 @@ public class MainMenuManagerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StorageHandler.InitAllFS();
+        StorageHandler.InitDirectoryTree();
     }
 
     // Update is called once per frame
