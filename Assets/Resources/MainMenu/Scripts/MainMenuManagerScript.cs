@@ -20,13 +20,4 @@ public class MainMenuManagerScript : MonoBehaviour
         SceneManager.LoadScene("Scenes/DichopticMovieScene");
     }
 
-    public void HandleFastGazeSceneButton()
-    {
-        SceneManager.LoadScene("Scenes/FastGazeScene");
-    }
-
-    public void HandleBallFollowerSceneButton()
-    {
-        SceneManager.LoadScene("Scenes/BallFollowerScene");
-    }
 }
