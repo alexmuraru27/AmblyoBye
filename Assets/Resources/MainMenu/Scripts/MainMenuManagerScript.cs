@@ -15,9 +15,18 @@ public class MainMenuManagerScript : MonoBehaviour
 
     }
 
+    public static void LoadMainMenuScene()
+    {
+        SceneManager.LoadScene("Scenes/MainMenuScene");
+    }
     public void HandleDichopticMovieSceneButton()
     {
         SceneManager.LoadScene("Scenes/DichopticMovieScene");
+    }
+
+    public void HandleConvergencePyramidSceneButton()
+    {
+        SceneManager.LoadScene("Scenes/ConvergencePyramid");
     }
 
 }

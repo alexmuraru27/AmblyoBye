@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.XR;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -57,7 +58,10 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.menuButton, out bool primaryButton) && primaryButton)
+        {
+            MainMenuManagerScript.LoadMainMenuScene();
+        }
     }
 
     private void RestoreInitialSettings()
@@ -167,11 +171,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public void ToggleSettingsMenuVisibility(GameObject settingsMenuObject)
     {
         settingsMenuObject.SetActive(!settingsMenuObject.activeSelf);
-    }
-
-    public void ReturnToMainMenu()
-    {
-        SceneManager.LoadScene("Scenes/MainMenuScene");
     }
 
     public void LoadMovieButtonHandle()
