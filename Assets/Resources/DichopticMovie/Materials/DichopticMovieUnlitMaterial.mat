@@ -137,7 +137,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BlobColor: {r: 0.27058825, g: 0.27058825, b: 0.27058825, a: 0}
-    - _BlobOffset: {r: 6, g: 0, b: 0, a: 0}
+    - _BlobOffset: {r: 9, g: 0, b: 0, a: 0}
     - _BlobStretch: {r: 1.8, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
