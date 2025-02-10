@@ -81,6 +81,27 @@ public class StorageHandler
             Debug.Log($"An error occurred while writing the file: {ex.Message}");
         }
     }
+
+    public static bool DeleteFileFromDir(TypeSafeDir dirName, string filename)
+    {
+        List<string> filePathsList = GetFilePathsFromDir(dirName);
+        foreach (string filepath in filePathsList)
+        {
+            if (File.Exists(filepath) && filepath.Contains(filename))
+            {
+                try
+                {
+                    File.Delete(filepath);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log($"An error occurred while deleting the file: {ex.Message}");
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 // Typesafe directories

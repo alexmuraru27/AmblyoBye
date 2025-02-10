@@ -198,6 +198,16 @@ public class DichopticMovieSceneManager : MonoBehaviour
         }
     }
 
+    public void DeleteSelectedMovie()
+    {
+        string selectedFilename = movieListDropdown.captionText.text;
+        if (selectedFilename != EMPTY_MOVIE_NAME)
+        {
+            StorageHandler.DeleteFileFromDir(TypeSafeDir.Movies, selectedFilename);
+            PopulateMovieDropdown();
+        }
+    }
+
     IEnumerator RunBlobChangeTimer()
     {
         while (true)
