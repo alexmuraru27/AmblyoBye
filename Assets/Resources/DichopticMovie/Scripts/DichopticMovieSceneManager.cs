@@ -5,7 +5,6 @@ using UnityEngine.Video;
 using TMPro;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.XR;
 
@@ -37,10 +36,16 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public GameObject blobEyeIndexToggle;
 
+    [SerializeField]
+    public GameObject settingsUI;
+
     private DichopticMovieSettingsManager settingsManager = null;
 
     private float timerValue;
     private float timerStep = 10;
+
+    private bool wasMenuButtonPressed = false;
+
 
     void Awake()
     {
@@ -58,9 +63,15 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.menuButton, out bool primaryButton) && primaryButton)
+        // If Menu button -> Show Settings UI
+        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.menuButton, out bool isPressed))
         {
-            MainMenuManagerScript.LoadMainMenuScene();
+            if (isPressed && !wasMenuButtonPressed)
+            {
+                settingsUI.SetActive(!settingsUI.activeSelf);
+                wasMenuButtonPressed = true;
+            }
+            wasMenuButtonPressed = isPressed;
         }
     }
 
@@ -168,11 +179,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         dichopticFilterMaterial.SetInt("_SupressingEyeIndex", isFilterEyeRight ? 1 : 0);
     }
 
-    public void ToggleSettingsMenuVisibility(GameObject settingsMenuObject)
-    {
-        settingsMenuObject.SetActive(!settingsMenuObject.activeSelf);
-    }
-
     public void LoadMovieButtonHandle()
     {
         string selectedFilename = movieListDropdown.captionText.text;
@@ -195,6 +201,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ReturnToMainMenu()
+    {
+        MainMenuManagerScript.LoadMainMenuScene();
     }
 
     public void DeleteSelectedMovie()

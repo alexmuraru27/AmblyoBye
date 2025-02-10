@@ -1,8 +1,5 @@
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.XR;
-using UnityEngine.SceneManagement;
 
 public class ConvergencePyramidManager : MonoBehaviour
 {
