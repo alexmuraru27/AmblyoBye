@@ -17,11 +17,11 @@ public class MainMenuManagerScript : MonoBehaviour
 
     public static void LoadMainMenuScene()
     {
-        SceneManager.LoadScene("Scenes/MainMenuScene");
+        SceneManager.LoadScene("Scenes/MainMenu");
     }
     public void HandleDichopticMovieSceneButton()
     {
-        SceneManager.LoadScene("Scenes/DichopticMovieScene");
+        SceneManager.LoadScene("Scenes/DichopticMovie");
     }
 
     public void HandleConvergencePyramidSceneButton()

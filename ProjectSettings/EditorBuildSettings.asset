@@ -4,7 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/DichopticMovie.unity
+    guid: f98fa97818eed40438f8ac106d4567b7
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 516b1f4d00cf61e4682c82285b775971
+  - enabled: 1
+    path: Assets/Scenes/ConvergencePyramid.unity
+    guid: fdf1c95c6eb4353479deb3c200da372d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 25892c8cc59d6e24dbc21a19a488e6d5, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
