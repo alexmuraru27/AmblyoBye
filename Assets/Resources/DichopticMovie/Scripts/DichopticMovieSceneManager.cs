@@ -14,7 +14,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public static DichopticMovieSceneManager Instance;
 
     [SerializeField]
-    public VideoPlayer moviePlayer;
+    public GameObject movieObject;
     [SerializeField]
     public Material dichopticFilterMaterial;
 
@@ -171,14 +171,15 @@ public class DichopticMovieSceneManager : MonoBehaviour
             {
                 if (filepath.Contains(selectedFilename))
                 {
-                    moviePlayer.source = VideoSource.Url;
+                    VideoPlayer videoPlayer = movieObject.GetComponent<VideoPlayer>();
+                    videoPlayer.source = VideoSource.Url;
                     // Send audio directly to Quest audio hw
-                    moviePlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+                    videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
                     // At least 1 audio track controlled
-                    moviePlayer.controlledAudioTrackCount = 1;
-                    moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
-                    moviePlayer.url = filepath;
-                    moviePlayer.Play();
+                    videoPlayer.controlledAudioTrackCount = 1;
+                    videoPlayer.GetComponent<AudioSource>().volume = 1.0f;
+                    videoPlayer.url = filepath;
+                    videoPlayer.Play();
                     break;
                 }
             }
