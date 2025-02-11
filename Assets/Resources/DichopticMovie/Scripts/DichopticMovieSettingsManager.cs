@@ -9,14 +9,13 @@ public class DichopticMovieSettingsManager
         public float BlobScaleValue;
         public float BlobGreyColorValue;
         public float BlobTimerValue;
-        public bool IsFilterEyeRight;
     }
 
     private const string SETTINGS_FILENAME = "DichopticMovieSettings.cfg";
 
     private DichopticMovieSettingsStruct dichopticMovieSettings;
 
-    public DichopticMovieSettingsManager(float blobClipValue, float blobScaleValue, float blobGreyColorValue, float blobTimerValue, bool isFilterEyeRight)
+    public DichopticMovieSettingsManager(float blobClipValue, float blobScaleValue, float blobGreyColorValue, float blobTimerValue)
     {
         dichopticMovieSettings = new DichopticMovieSettingsStruct
         {
@@ -24,7 +23,6 @@ public class DichopticMovieSettingsManager
             BlobScaleValue = blobScaleValue,
             BlobGreyColorValue = blobGreyColorValue,
             BlobTimerValue = blobTimerValue,
-            IsFilterEyeRight = isFilterEyeRight
         };
         if (!RestoreSettings())
         {
@@ -74,12 +72,6 @@ public class DichopticMovieSettingsManager
         StoreSettings();
     }
 
-    public void SetIsFilterEyeRight(bool value)
-    {
-        dichopticMovieSettings.IsFilterEyeRight = value;
-        StoreSettings();
-    }
-
     public float GetBlobClipValue()
     {
         return dichopticMovieSettings.BlobClipValue;
@@ -98,10 +90,5 @@ public class DichopticMovieSettingsManager
     public float GetBlobTimerValue()
     {
         return dichopticMovieSettings.BlobTimerValue;
-    }
-
-    public bool GetIsFilterEyeRight()
-    {
-        return dichopticMovieSettings.IsFilterEyeRight;
     }
 }

@@ -34,9 +34,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public GameObject blobTimerSlider;
 
     [SerializeField]
-    public GameObject blobEyeIndexToggle;
-
-    [SerializeField]
     public GameObject settingsUI;
 
     private DichopticMovieSettingsManager settingsManager = null;
@@ -80,14 +77,12 @@ public class DichopticMovieSceneManager : MonoBehaviour
         settingsManager = new DichopticMovieSettingsManager(blobClippingSlider.GetComponent<Slider>().value,
                                                     blobScaleSlider.GetComponent<Slider>().value,
                                                     blobGrayColorSlider.GetComponent<Slider>().value,
-                                                    blobTimerSlider.GetComponent<Slider>().value,
-                                                    blobEyeIndexToggle.GetComponent<Toggle>().isOn);
+                                                    blobTimerSlider.GetComponent<Slider>().value);
 
         HandleChangeBlobClipping(settingsManager.GetBlobClipValue());
         HandleChangeBlobScale(settingsManager.GetBlobScaleValue());
         HandleChangeBlobGreyValue(settingsManager.GetBlobGreyColorValue());
         HandleChangeBlobTimerValue(settingsManager.GetBlobTimerValue());
-        HandleChangeEyeFilterToggle(settingsManager.GetIsFilterEyeRight());
     }
 
     private void PopulateMovieDropdown()
@@ -137,13 +132,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeBlobTimerValue(blobTimerValue);
     }
 
-    public void ChangeEyeFilterToggle()
-    {
-        bool isFilterEyeRight = blobEyeIndexToggle.GetComponent<Toggle>().isOn;
-        settingsManager?.SetIsFilterEyeRight(isFilterEyeRight);
-        HandleChangeEyeFilterToggle(isFilterEyeRight);
-    }
-
     private void HandleChangeBlobClipping(float blobClipValue)
     {
         blobClippingSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobClipValue.ToString("0.00");
@@ -171,12 +159,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
         timerStep = blobTimerValue;
         blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0");
-    }
-
-    private void HandleChangeEyeFilterToggle(bool isFilterEyeRight)
-    {
-        blobEyeIndexToggle.GetComponent<Toggle>().isOn = isFilterEyeRight;
-        dichopticFilterMaterial.SetInt("_SupressingEyeIndex", isFilterEyeRight ? 1 : 0);
     }
 
     public void LoadMovieButtonHandle()
