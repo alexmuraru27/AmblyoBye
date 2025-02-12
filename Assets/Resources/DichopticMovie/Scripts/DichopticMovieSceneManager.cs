@@ -61,7 +61,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     void Update()
     {
         // If Menu button -> Show Settings UI
-        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.menuButton, out bool isPressed))
+        if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool isPressed))
         {
             if (isPressed && !wasMenuButtonPressed)
             {
