@@ -179,6 +179,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
                     videoPlayer.GetComponent<AudioSource>().volume = 1.0f;
                     videoPlayer.url = filepath;
                     videoPlayer.Play();
+                    settingsUI.SetActive(false);
                     break;
                 }
             }
