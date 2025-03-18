@@ -46,11 +46,9 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     private bool wasMenuButtonPressed = false;
 
-
     void Awake()
     {
         Instance = this;
-        StartCoroutine(RunBlobChangeTimer());
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,21 +56,24 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         RestoreInitialSettings();
         PopulateMovieDropdown();
+        StartCoroutine(RunBlobChangeTimer());
     }
 
     // Update is called once per frame
     void Update()
     {
         // If Menu button -> Show Settings UI
-        if (InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.menuButton, out bool isPressed))
+        bool isPressedLeft;
+        bool isPressedRight;
+        InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out isPressedRight);
+        InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out isPressedLeft);
+        if ((isPressedRight || isPressedLeft) && !wasMenuButtonPressed)
         {
-            if (isPressed && !wasMenuButtonPressed)
-            {
-                settingsUI.SetActive(!settingsUI.activeSelf);
-                wasMenuButtonPressed = true;
-            }
-            wasMenuButtonPressed = isPressed;
+            settingsUI.SetActive(!settingsUI.activeSelf);
+            wasMenuButtonPressed = true;
         }
+        wasMenuButtonPressed = isPressedRight || isPressedLeft;
+
     }
 
     private void RestoreInitialSettings()
@@ -170,7 +171,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
         timerStep = blobTimerValue;
-        blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0");
+        blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0.0");
     }
 
     private void HandleChangeEyeFilterToggle(bool isFilterEyeRight)
@@ -197,15 +198,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
                     moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
                     moviePlayer.url = filepath;
                     moviePlayer.Play();
+                    settingsUI.SetActive(false);
                     break;
                 }
             }
         }
-    }
-
-    public void ReturnToMainMenu()
-    {
-        MainMenuManagerScript.LoadMainMenuScene();
     }
 
     public void DeleteSelectedMovie()
@@ -220,11 +217,15 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     IEnumerator RunBlobChangeTimer()
     {
+        System.Random random = new System.Random();
         while (true)
         {
             yield return new WaitForSeconds(timerStep);
-            timerValue += 1;
-            dichopticFilterMaterial.SetVector("_BlobOffset", new Vector2(timerValue, (int)timerValue / 10));
+            timerValue += timerStep;
+
+            float f1 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
+            float f2 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
+            dichopticFilterMaterial.SetVector("_BlobOffset", new Vector2(f1, f2));
         }
     }
 }
