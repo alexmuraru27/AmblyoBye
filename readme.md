@@ -20,6 +20,18 @@ Studies have shown that presenting different images to each eye can promote bino
 
 ---
 
+
+## 📷 Screenshots
+
+|       **Left Eye View**        |        **Right Eye View**        |
+| :----------------------------: | :------------------------------: |
+| ![left_eye](Docu/left_eye.jpg) | ![right_eye](Docu/right_eye.jpg) |
+
+**Settings Screen**  
+![settings](Docu/settings.jpg)
+
+---
+
 ## 📁 Installation & Setup
 
 ### 1. Initial Launch - Quest3
@@ -55,17 +67,6 @@ Quest 3\Internal shared storage\Android\data\com.bober101.amblyobye\Movies
 
 After adding movies, reopen AmblyoBye.  
 Navigate to the "Movie List" category to select and play your movie from the dropdown list.
-
----
-
-## 📷 Screenshots
-
-|       **Left Eye View**        |        **Right Eye View**        |
-| :----------------------------: | :------------------------------: |
-| ![left_eye](Docu/left_eye.jpg) | ![right_eye](Docu/right_eye.jpg) |
-
-**Settings Screen**  
-![settings](Docu/settings.jpg)
 
 ---
 
