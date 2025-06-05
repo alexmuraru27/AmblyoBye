@@ -32,6 +32,50 @@ Studies have shown that presenting different images to each eye can promote bino
 
 ---
 
+## 🎮 Controls
+
+### VR Controller (Meta Quest 3)
+
+- **Left or Right Thumbstick Press (click)**  
+  ➤ Toggles the **Settings Panel** on or off. Use this to show or hide the control sliders during movie playback.
+
+- **Right Trigger Drag and Drop while on the movie panel**  
+  ➤ Use this to move the movie screen farther or closer to the eyes
+
+- **Right Trigger Click on movie panel**  
+  ➤ Use this to pause/start the movie
+
+- **Right Trigger Drag and Drop on video progress slider**  
+  ➤ Use this to go ahead/behind of the movie timeframe
+---
+
+### 🧩 In-App Settings Panel
+
+When the settings panel is visible (via thumbstick press), you can adjust the following:
+
+- **✂️ Blob Clipping (Slider)**  
+  ➤ Adjusts how sharp or soft the edges of the blob mask appear.
+
+- **🔘 Blob Scale (Slider)**  
+  ➤ Adjusts the size of the blob-shaped contrast mask used in the vision therapy.
+
+- **🌫️ Blob Color (Slider)**  
+  ➤ Sets how dark or light the background appears in the suppressed eye.
+
+- **⏱️ Blob Change Time (Slider)**  
+  ➤ Controls how often the blob mask changes position (in seconds). More frequent changes may stimulate visual processing more effectively.
+
+- **👁️ Switch Eye (Toggle)**  
+  ➤ Switch between filtering the left or the right eye. This determines which eye sees the suppressed (dimmed) version of the image.
+
+- **🎞️ Movie Selector (Dropdown List)**  
+  ➤ Choose which movie to watch from your loaded videos.
+
+- **🗑️ Delete Movie (Button)**  
+  ➤ Removes the selected video from your library.
+
+---
+
 ## 📁 Installation & Setup
 
 ### 1. Initial Launch - Quest3
