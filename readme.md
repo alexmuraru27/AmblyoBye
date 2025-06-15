@@ -1,3 +1,23 @@
+- [AmblyoBye](#amblyobye)
+  - [🎯 Purpose](#-purpose)
+  - [🛠️ Features](#️-features)
+  - [📷 Screenshots](#-screenshots)
+  - [🎮 Controls](#-controls)
+    - [VR Controller (Meta Quest 3)](#vr-controller-meta-quest-3)
+    - [🧩 In-App Settings Panel](#-in-app-settings-panel)
+  - [📁 Installation \& Setup](#-installation--setup)
+    - [1. Installation](#1-installation)
+    - [2. Initial Launch - Quest3](#2-initial-launch---quest3)
+    - [3. Supported Video Formats - PC](#3-supported-video-formats---pc)
+    - [4. Movie Conversion - PC](#4-movie-conversion---pc)
+    - [5. Adding Movies - PC](#5-adding-movies---pc)
+    - [6. Relaunch Application - Quest3](#6-relaunch-application---quest3)
+  - [📚 Research Background](#-research-background)
+  - [👁️ Personal Experience](#️-personal-experience)
+  - [⚠️ Disclaimer](#️-disclaimer)
+  - [🔬 Reference and Research papers used](#-reference-and-research-papers-used)
+  - [📞 Contact Support and Research Collaboration](#-contact-support-and-research-collaboration)
+
 # AmblyoBye
 
 **AmblyoBye** is a virtual reality (VR) application developed using Unity 6000.0.35f1, designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing.  
@@ -47,6 +67,7 @@ Studies have shown that presenting different images to each eye can promote bino
 
 - **Right Trigger Drag and Drop on video progress slider**  
   ➤ Use this to go ahead/behind of the movie timeframe
+  
 ---
 
 ### 🧩 In-App Settings Panel
@@ -78,17 +99,23 @@ When the settings panel is visible (via thumbstick press), you can adjust the fo
 
 ## 📁 Installation & Setup
 
-### 1. Initial Launch - Quest3
+### 1. Installation 
+
+1. Download AmblyoBye-X.Y.apk from the releases or compile the project on your machine
+2. Enable "Unknown Sources" on Meta Quest 3
+3. Install APK using SideQuest or ADB
+
+### 2. Initial Launch - Quest3
 
 Open the AmblyoBye application once to allow it to create the necessary directory structure.
 
-### 2. Supported Video Formats - PC
+### 3. Supported Video Formats - PC
 
 AmblyoBye supports the following video formats(must be compliant with Meta Quest3 video codecs):  
 `.asf`, `.avi`, `.dv`, `.m4v`, `.mp4`, `.mov`, `.mpg`, `.mpeg`, `.ogv`, `.vp8`, `.webm`, `.wmv`
 
 
-### 3. Movie Conversion - PC
+### 4. Movie Conversion - PC
 
 On your computer, download movies and use [HandBrake 1.9.0](https://handbrake.fr/) (or similar video converting tools) to convert your movies to a format that can be used by Quest3 and Unity:
 - Format: MP4 (H.264 codec)
@@ -100,14 +127,14 @@ On your computer, download movies and use [HandBrake 1.9.0](https://handbrake.fr
 
 > ⚠️ Note: While various encodings are supported, H.264 has been found to work best.
 
-### 4. Adding Movies - PC
+### 5. Adding Movies - PC
 
 Transfer your converted movies to the following directory on your Quest 3 device: 
  
 Quest 3\Internal shared storage\Android\data\com.amblyobye.amblyobye\Movies
 
 
-### 5. Relaunch Application - Quest3
+### 6. Relaunch Application - Quest3
 
 After adding movies, reopen AmblyoBye.  
 Navigate to the "Movie List" category to select and play your movie from the dropdown list.
@@ -135,19 +162,10 @@ This experience has shown me firsthand that visual improvement is still possible
 
 AmblyoBye is intended for use under the guidance of a qualified eye care professional.  
 It is not a substitute for professional medical advice, diagnosis, or treatment.  
+Improving your vision while having strabismus might lead to Diplopia. Please take that into consideration
 Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
-
 ---
 
-## 🧑‍💻 Developer Notes
-
-- **Unity Version**: 6000.0.35f1  
-- **VR Platform**: Meta Quest 3  
-- **Video Conversion Tool**: HandBrake 1.9.0
-
-> For optimal performance, ensure that your movies are encoded using the H.264 codec at 30 fps with AAC audio.
-
----
 
 ## 🔬 Reference and Research papers used
 
@@ -163,3 +181,5 @@ C. Lunghi, M. Berchicci, M. Concetta Morrone, F. Di Russo (2015).
 _Short-term monocular deprivation alters early components of visual evoked potentials_
 [DOI: 10.1113/JP270950](https://doi.org/10.1113/JP270950)
 
+## 📞 Contact Support and Research Collaboration
+Email✉️ : amblyobye@gmail.com
