@@ -104,7 +104,7 @@ On your computer, download movies and use [HandBrake 1.9.0](https://handbrake.fr
 
 Transfer your converted movies to the following directory on your Quest 3 device: 
  
-Quest 3\Internal shared storage\Android\data\com.bober101.amblyobye\Movies
+Quest 3\Internal shared storage\Android\data\com.amblyobye.amblyobye\Movies
 
 
 ### 5. Relaunch Application - Quest3
