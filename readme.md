@@ -153,7 +153,7 @@ Notably, a study titled _"Contribution of Short-Time Occlusion of the Amblyopic 
 
 As the developer of AmblyoBye, I also suffer from amblyopia.  
 At the age of 27, my vision in the amblyopic eye was as low as 0.05 visual acuity (VA).  
-Through a year of intermittent patching combined with regular use of AmblyoBye, I was able to improve my vision to 0.3-0.4 VA — a meaningful and motivating personal achievement that drives this project's continued development.  
+Through a year of intermittent patching(2hr of patching the `BAD` eye, as suggested per `DOI: 10.1113/JP270950`) combined with regular use of AmblyoBye, I was able to improve my vision to 0.3-0.4 VA — a meaningful and motivating personal achievement that drives this project's continued development.  
 This experience has shown me firsthand that visual improvement is still possible well into adulthood with the right tools and persistence.
 
 ---
@@ -161,8 +161,8 @@ This experience has shown me firsthand that visual improvement is still possible
 ## ⚠️ Disclaimer
 
 AmblyoBye is intended for use under the guidance of a qualified eye care professional.  
-It is not a substitute for professional medical advice, diagnosis, or treatment.  
-Improving your vision while having strabismus might lead to Diplopia. Please take that into consideration
+It is not a substitute for professional medical advice, diagnosis, or treatment.   
+Improving your vision while having strabismus might lead to Diplopia. Please take that into consideration.
 Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
 ---
 
