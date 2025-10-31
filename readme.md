@@ -1,3 +1,5 @@
+
+[<img src="Docu/amblyobye.png" width="200" />](Docu/amblyobye.png)
 - [AmblyoBye](#amblyobye)
   - [🎯 Purpose](#-purpose)
   - [🛠️ Features](#️-features)
