@@ -2,6 +2,7 @@
 [<img src="Docu/amblyobye.png" width="200" />](Docu/amblyobye.png)
 - [AmblyoBye](#amblyobye)
   - [🎯 Purpose](#-purpose)
+  - [🛠️ Supported Devices](#️-supported-devices)
   - [🛠️ Features](#️-features)
   - [📷 Screenshots](#-screenshots)
   - [🎮 Controls](#-controls)
@@ -17,12 +18,13 @@
   - [📚 Research Background](#-research-background)
   - [👁️ Personal Experience](#️-personal-experience)
   - [⚠️ Disclaimer](#️-disclaimer)
+  - [Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.](#always-seek-the-advice-of-your-physician-or-other-qualified-health-provider-with-any-questions-you-may-have-regarding-a-medical-condition)
   - [🔬 Reference and Research papers used](#-reference-and-research-papers-used)
   - [📞 Contact Support and Research Collaboration](#-contact-support-and-research-collaboration)
 
 # AmblyoBye
 
-**AmblyoBye** is a virtual reality (VR) application developed using Unity 6000.0.35f1, designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing.  
+**AmblyoBye** is a virtual reality (VR) application developed using Unity 6000.0.35f1 for Quest2/3 VR, designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing.  
 Leveraging the capabilities of the Meta Quest 3 VR headset, AmblyoBye offers an engaging and passive therapeutic experience aimed at improving visual acuity in individuals with amblyopia.
 
 ---
@@ -32,6 +34,9 @@ Leveraging the capabilities of the Meta Quest 3 VR headset, AmblyoBye offers an 
 AmblyoBye is inspired by research indicating that dichoptic movie viewing can enhance visual function in amblyopic patients, even beyond the critical period of visual development.  
 Studies have shown that presenting different images to each eye can promote binocular vision and reduce suppression of the amblyopic eye ([source](https://pubmed.ncbi.nlm.nih.gov/31558900/)).
 
+## 🛠️ Supported Devices
+- Meta Oculus Quest 2 (https://www.meta.com/quest/products/quest-2/)
+- Meta Oculus Quest 3 (https://www.meta.com/quest/quest-3/)
 
 ## 🛠️ Features
 
