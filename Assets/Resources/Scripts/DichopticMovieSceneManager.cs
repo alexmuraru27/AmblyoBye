@@ -22,7 +22,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public TMP_Dropdown movieListDropdown;
 
     [SerializeField]
-    public GameObject blobClippingSlider;
+    public GameObject eyeBiasSlider;
 
     [SerializeField]
     public GameObject blobScaleSlider;
@@ -34,10 +34,10 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public GameObject blobTimerSlider;
 
     [SerializeField]
-    public GameObject blobEyeIndexToggle;
+    public GameObject settingsUI;
 
     [SerializeField]
-    public GameObject settingsUI;
+    public TextMeshProUGUI versionTextBox;
 
     private DichopticMovieSettingsManager settingsManager = null;
 
@@ -54,7 +54,8 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        RestoreInitialSettings();
+        versionTextBox.text = "v" + Application.version;
+        RestoreInitialSettingsFromPersistance();
         PopulateMovieDropdown();
         StartCoroutine(RunBlobChangeTimer());
     }
@@ -76,19 +77,29 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     }
 
-    private void RestoreInitialSettings()
+    private void RestoreInitialSettingsFromPersistance()
     {
-        settingsManager = new DichopticMovieSettingsManager(blobClippingSlider.GetComponent<Slider>().value,
+        settingsManager = new DichopticMovieSettingsManager(eyeBiasSlider.GetComponent<Slider>().value,
                                                     blobScaleSlider.GetComponent<Slider>().value,
                                                     blobGrayColorSlider.GetComponent<Slider>().value,
-                                                    blobTimerSlider.GetComponent<Slider>().value,
-                                                    blobEyeIndexToggle.GetComponent<Toggle>().isOn);
+                                                    blobTimerSlider.GetComponent<Slider>().value);
+        settingsManager.TryRestore();
+        RestoreSettingsPanelFromManager(settingsManager);
+    }
 
-        HandleChangeBlobClipping(settingsManager.GetBlobClipValue());
+    public void ResetSettings()
+    {
+        settingsManager = new DichopticMovieSettingsManager(0.5F, 1.0F, 70.0F, 5.0F);
+        settingsManager.StoreSettings();
+        RestoreSettingsPanelFromManager(settingsManager);
+    }
+
+    private void RestoreSettingsPanelFromManager(DichopticMovieSettingsManager settingsManager)
+    {
+        HandleChangeEyeBiasValue(settingsManager.GetEyeBiasValue());
         HandleChangeBlobScale(settingsManager.GetBlobScaleValue());
         HandleChangeBlobGreyValue(settingsManager.GetBlobGreyColorValue());
         HandleChangeBlobTimerValue(settingsManager.GetBlobTimerValue());
-        HandleChangeEyeFilterToggle(settingsManager.GetIsFilterEyeRight());
     }
 
     private void PopulateMovieDropdown()
@@ -110,11 +121,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
         }
     }
 
-    public void ChangeBlobClipping()
+    public void ChangeEyeBiasValue()
     {
-        float blobClippingValue = blobClippingSlider.GetComponent<Slider>().value;
-        settingsManager?.SetBlobClipValue(blobClippingValue);
-        HandleChangeBlobClipping(blobClippingValue);
+        float eyeBiasValue = eyeBiasSlider.GetComponent<Slider>().value;
+        settingsManager?.SetEyeBiasValue(eyeBiasValue);
+        HandleChangeEyeBiasValue(eyeBiasValue);
     }
 
     public void ChangeBlobScale()
@@ -138,18 +149,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeBlobTimerValue(blobTimerValue);
     }
 
-    public void ChangeEyeFilterToggle()
+    private void HandleChangeEyeBiasValue(float eyeBiasValue)
     {
-        bool isFilterEyeRight = blobEyeIndexToggle.GetComponent<Toggle>().isOn;
-        settingsManager?.SetIsFilterEyeRight(isFilterEyeRight);
-        HandleChangeEyeFilterToggle(isFilterEyeRight);
-    }
-
-    private void HandleChangeBlobClipping(float blobClipValue)
-    {
-        blobClippingSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobClipValue.ToString("0.00");
-        blobClippingSlider.GetComponent<Slider>().value = blobClipValue;
-        dichopticFilterMaterial.SetFloat("_BlobClipping", blobClipValue);
+        eyeBiasSlider.GetComponentInChildren<TextMeshProUGUI>().text = eyeBiasValue.ToString("0.00");
+        eyeBiasSlider.GetComponent<Slider>().value = eyeBiasValue;
+        dichopticFilterMaterial.SetFloat("_BlobClipping", eyeBiasValue);
     }
 
 
@@ -172,12 +176,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
         timerStep = blobTimerValue;
         blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0.0");
-    }
-
-    private void HandleChangeEyeFilterToggle(bool isFilterEyeRight)
-    {
-        blobEyeIndexToggle.GetComponent<Toggle>().isOn = isFilterEyeRight;
-        dichopticFilterMaterial.SetInt("_SupressingEyeIndex", isFilterEyeRight ? 1 : 0);
     }
 
     public void LoadMovieButtonHandle()

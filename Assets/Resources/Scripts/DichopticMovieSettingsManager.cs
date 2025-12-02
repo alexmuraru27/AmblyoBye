@@ -5,27 +5,29 @@ public class DichopticMovieSettingsManager
     [Serializable]
     public struct DichopticMovieSettingsStruct
     {
-        public float BlobClipValue;
+        public float EyeBiasValue;
         public float BlobScaleValue;
         public float BlobGreyColorValue;
         public float BlobTimerValue;
-        public bool IsFilterEyeRight;
     }
 
     private const string SETTINGS_FILENAME = "DichopticMovieSettings.cfg";
 
-    private DichopticMovieSettingsStruct dichopticMovieSettings;
+    private DichopticMovieSettingsStruct _dichopticMovieSettings;
 
-    public DichopticMovieSettingsManager(float blobClipValue, float blobScaleValue, float blobGreyColorValue, float blobTimerValue, bool isFilterEyeRight)
+    public DichopticMovieSettingsManager(float eyeBiasValue, float blobScaleValue, float blobGreyColorValue, float blobTimerValue)
     {
-        dichopticMovieSettings = new DichopticMovieSettingsStruct
+        _dichopticMovieSettings = new DichopticMovieSettingsStruct
         {
-            BlobClipValue = blobClipValue,
+            EyeBiasValue = eyeBiasValue,
             BlobScaleValue = blobScaleValue,
             BlobGreyColorValue = blobGreyColorValue,
             BlobTimerValue = blobTimerValue,
-            IsFilterEyeRight = isFilterEyeRight
         };
+    }
+
+    public void TryRestore()
+    {
         if (!RestoreSettings())
         {
             StoreSettings();
@@ -34,7 +36,7 @@ public class DichopticMovieSettingsManager
 
     public void StoreSettings()
     {
-        SettingsHandler.StoreSettings(SETTINGS_FILENAME, dichopticMovieSettings);
+        SettingsHandler.StoreSettings(SETTINGS_FILENAME, _dichopticMovieSettings);
     }
 
     public bool RestoreSettings()
@@ -43,65 +45,54 @@ public class DichopticMovieSettingsManager
         DichopticMovieSettingsStruct tempStruct = new();
         if (SettingsHandler.RestoreSettings(SETTINGS_FILENAME, ref tempStruct))
         {
-            dichopticMovieSettings = tempStruct;
+            _dichopticMovieSettings = tempStruct;
             isSuccess = true;
         }
         return isSuccess;
     }
 
 
-    public void SetBlobClipValue(float value)
+    public void SetEyeBiasValue(float value)
     {
-        dichopticMovieSettings.BlobClipValue = value;
+        _dichopticMovieSettings.EyeBiasValue = value;
         StoreSettings();
     }
 
     public void SetBlobScaleValue(float value)
     {
-        dichopticMovieSettings.BlobScaleValue = value;
+        _dichopticMovieSettings.BlobScaleValue = value;
         StoreSettings();
     }
 
     public void SetBlobGreyColorValue(float value)
     {
-        dichopticMovieSettings.BlobGreyColorValue = value;
+        _dichopticMovieSettings.BlobGreyColorValue = value;
         StoreSettings();
     }
 
     public void SetBlobTimerValue(float value)
     {
-        dichopticMovieSettings.BlobTimerValue = value;
+        _dichopticMovieSettings.BlobTimerValue = value;
         StoreSettings();
     }
 
-    public void SetIsFilterEyeRight(bool value)
+    public float GetEyeBiasValue()
     {
-        dichopticMovieSettings.IsFilterEyeRight = value;
-        StoreSettings();
-    }
-
-    public float GetBlobClipValue()
-    {
-        return dichopticMovieSettings.BlobClipValue;
+        return _dichopticMovieSettings.EyeBiasValue;
     }
 
     public float GetBlobScaleValue()
     {
-        return dichopticMovieSettings.BlobScaleValue;
+        return _dichopticMovieSettings.BlobScaleValue;
     }
 
     public float GetBlobGreyColorValue()
     {
-        return dichopticMovieSettings.BlobGreyColorValue;
+        return _dichopticMovieSettings.BlobGreyColorValue;
     }
 
     public float GetBlobTimerValue()
     {
-        return dichopticMovieSettings.BlobTimerValue;
-    }
-
-    public bool GetIsFilterEyeRight()
-    {
-        return dichopticMovieSettings.IsFilterEyeRight;
+        return _dichopticMovieSettings.BlobTimerValue;
     }
 }

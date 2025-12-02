@@ -82,7 +82,7 @@ Studies have shown that presenting different images to each eye can promote bino
 
 When the settings panel is visible (via thumbstick press), you can adjust the following:
 
-- **✂️ Blob Clipping (Slider)**  
+- **✂️ Eye supress bias (Slider)**  
   ➤ Adjusts the infill percentage of the blobs. You can see this as a bias setting.
   - 0 -> Full suppresion on the left eye,
   - 0-100 -> Variable supression. Values less than 0.5 supress the left eye. Values more than 0.5 supress the right eye
@@ -101,9 +101,6 @@ When the settings panel is visible (via thumbstick press), you can adjust the fo
 - **⏱️ Blob Change Time (Slider)**  
   ➤ Controls how often the blob mask changes position (in seconds). More frequent changes may stimulate visual processing more effectively.
 
-- **👁️ Switch Eye (Toggle)**  
-  ➤ Switch between filtering the left or the right eye. Flips the functionality of the `Blob clipping`. Will be removed soon, `I advise to keep this OFF`
-
 - **🎞️ Movie Selector (Dropdown List)**  
   ➤ Choose which movie to watch from your loaded videos.
 
@@ -113,11 +110,10 @@ When the settings panel is visible (via thumbstick press), you can adjust the fo
 
 ### Suggested starting settings
 Suggested starting settings that you can play around:
- - Blob clipping: 0.5
+ - Eye supress bias: 0.5
  - Blob scale : 1
  - Blob color 70
  - Blob time 5
- - Switch Eye -> OFF (this setting will be removed soon)
 ---
 
 ## 📁 Installation & Setup
