@@ -84,9 +84,9 @@ When the settings panel is visible (via thumbstick press), you can adjust the fo
 
 - **✂️ Blob Clipping (Slider)**  
   ➤ Adjusts the infill percentage of the blobs. You can see this as a bias setting.
-  0 -> Full suppresion on the left eye,
-  0-100 -> Variable supression. Values less than 0.5 supress the left eye. Values more than 0.5 supress the right eye
-  100 -> Full supression on the right eye
+  - 0 -> Full suppresion on the left eye,
+  - 0-100 -> Variable supression. Values less than 0.5 supress the left eye. Values more than 0.5 supress the right eye
+  - 100 -> Full supression on the right eye
   E.g. For my left eye amblyopia I used a value of 0.65 to supress the right eye a bit, and let my left eye see more. If you have right eye amblyobia, you can use values less than 0.5
 
 - **🔘 Blob Scale (Slider)**  
@@ -94,9 +94,9 @@ When the settings panel is visible (via thumbstick press), you can adjust the fo
 
 - **🌫️ Blob Color (Slider)**  
   ➤ Sets how dark or light the background appears in the suppressed eye.
-  0 -> Black
-  0 - 100 ->  Grey
-  100 -> White
+  - 0 -> Black
+  - 0 - 100 ->  Grey
+  - 100 -> White
 
 - **⏱️ Blob Change Time (Slider)**  
   ➤ Controls how often the blob mask changes position (in seconds). More frequent changes may stimulate visual processing more effectively.
