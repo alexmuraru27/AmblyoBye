@@ -8,6 +8,7 @@
   - [🎮 Controls](#-controls)
     - [VR Controller (Meta Quest 3)](#vr-controller-meta-quest-3)
     - [🧩 In-App Settings Panel](#-in-app-settings-panel)
+    - [Suggested starting settings](#suggested-starting-settings)
   - [📁 Installation \& Setup](#-installation--setup)
     - [1. Installation](#1-installation)
     - [2. Initial Launch - Quest3](#2-initial-launch---quest3)
@@ -82,19 +83,26 @@ Studies have shown that presenting different images to each eye can promote bino
 When the settings panel is visible (via thumbstick press), you can adjust the following:
 
 - **✂️ Blob Clipping (Slider)**  
-  ➤ Adjusts how sharp or soft the edges of the blob mask appear.
+  ➤ Adjusts the infill percentage of the blobs. You can see this as a bias setting.
+  0 -> Full suppresion on the left eye,
+  0-100 -> Variable supression. Values less than 0.5 supress the left eye. Values more than 0.5 supress the right eye
+  100 -> Full supression on the right eye
+  E.g. For my left eye amblyopia I used a value of 0.65 to supress the right eye a bit, and let my left eye see more. If you have right eye amblyobia, you can use values less than 0.5
 
 - **🔘 Blob Scale (Slider)**  
-  ➤ Adjusts the size of the blob-shaped contrast mask used in the vision therapy.
+  ➤ Adjusts the size of the blob-shaped contrast mask used in the vision therapy
 
 - **🌫️ Blob Color (Slider)**  
   ➤ Sets how dark or light the background appears in the suppressed eye.
+  0 -> Black
+  0 - 100 ->  Grey
+  100 -> White
 
 - **⏱️ Blob Change Time (Slider)**  
   ➤ Controls how often the blob mask changes position (in seconds). More frequent changes may stimulate visual processing more effectively.
 
 - **👁️ Switch Eye (Toggle)**  
-  ➤ Switch between filtering the left or the right eye. This determines which eye sees the suppressed (dimmed) version of the image.
+  ➤ Switch between filtering the left or the right eye. Flips the functionality of the `Blob clipping`. Will be removed soon, `I advise to keep this OFF`
 
 - **🎞️ Movie Selector (Dropdown List)**  
   ➤ Choose which movie to watch from your loaded videos.
@@ -102,6 +110,14 @@ When the settings panel is visible (via thumbstick press), you can adjust the fo
 - **🗑️ Delete Movie (Button)**  
   ➤ Removes the selected video from your library.
 
+
+### Suggested starting settings
+Suggested starting settings that you can play around:
+ - Blob clipping: 0.5
+ - Blob scale : 1
+ - Blob color 70
+ - Blob time 5
+ - Switch Eye -> OFF (this setting will be removed soon)
 ---
 
 ## 📁 Installation & Setup
