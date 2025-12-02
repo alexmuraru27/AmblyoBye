@@ -1,5 +1,14 @@
 
+<div align="center">
+  
 [<img src="Docu/amblyobye.png" width="200" />](Docu/amblyobye.png)
+
+![Version](https://img.shields.io/badge/version-1.2-green)
+[![Contact](https://img.shields.io/badge/contact-amblyobye@gmail.com-red)](mailto:amblyobye@gmail.com)
+[![Donate](https://img.shields.io/badge/donate-PayPal-blue)](https://www.paypal.com/donate/?hosted_button_id=BS53UFQK6Z62L)
+
+</div>
+
 - [AmblyoBye](#amblyobye)
   - [🎯 Purpose](#-purpose)
   - [🛠️ Supported Devices](#️-supported-devices)
@@ -25,7 +34,7 @@
 
 # AmblyoBye
 
-**AmblyoBye** is a virtual reality (VR) application developed using Unity 6000.0.35f1 for Quest2/3 VR, designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing.  
+**AmblyoBye** is a virtual reality (VR) application designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing, developed using Unity 6000.0.35f1 for Meta Quest2/3 VR,
 Leveraging the capabilities of the Meta Quest 3 VR headset, AmblyoBye offers an engaging and passive therapeutic experience aimed at improving visual acuity in individuals with amblyopia.
 
 ---
@@ -170,10 +179,11 @@ Notably, a study titled _"Contribution of Short-Time Occlusion of the Amblyopic 
 
 ## 👁️ Personal Experience
 
-As the developer of AmblyoBye, I also suffer from amblyopia.  
+As the developer of AmblyoBye(i am a merely software developer), I also suffer from amblyopia.  
 At the age of 27, my vision in the amblyopic eye was as low as 0.05 visual acuity (VA).  
 Through a year of intermittent patching(2hr of patching the `BAD` eye, as suggested per `DOI: 10.1113/JP270950`) combined with regular use of AmblyoBye, I was able to improve my vision to 0.3-0.4 VA — a meaningful and motivating personal achievement that drives this project's continued development.  
 This experience has shown me firsthand that visual improvement is still possible well into adulthood with the right tools and persistence.
+
 
 ---
 
