@@ -7,11 +7,17 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit.UI;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
+    private const float DISTANCE_TO_SCREEN_IN_M = 2.0f;
     private string EMPTY_MOVIE_NAME = "";
+
     public static DichopticMovieSceneManager Instance;
+
+    [SerializeField]
+    public GameObject moviePlayerGO;
 
     [SerializeField]
     public VideoPlayer moviePlayer;
@@ -42,11 +48,10 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI totalPlayedTimeTextBox;
     private int sessionSecondsWatched = 0;
-
-    private DichopticMovieSettingsManager settingsManager = null;
-
-    private float timerStep = 10;
+    private float blobTimerDuration = 10;
     private bool wasMenuButtonPressed = false;
+    private bool isCameraInit = false;
+    private DichopticMovieSettingsManager settingsManager = null;
 
     void Awake()
     {
@@ -67,6 +72,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateCamera();
         // If Menu button -> Show Settings UI
         bool isPressedLeft;
         bool isPressedRight;
@@ -78,7 +84,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
             wasMenuButtonPressed = true;
         }
         wasMenuButtonPressed = isPressedRight || isPressedLeft;
-
     }
 
     private void UpdateTimeWatchedText(int seconds)
@@ -184,7 +189,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     private void HandleChangeBlobTimerValue(float blobTimerValue)
     {
         blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
-        timerStep = blobTimerValue;
+        blobTimerDuration = blobTimerValue;
         blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0.0");
     }
 
@@ -228,7 +233,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
         System.Random random = new System.Random();
         while (true)
         {
-            yield return new WaitForSeconds(timerStep);
+            yield return new WaitForSeconds(blobTimerDuration);
 
             float f1 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
             float f2 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
@@ -246,5 +251,64 @@ public class DichopticMovieSceneManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1);
         }
+    }
+
+    private XRInputSubsystem GetXRSubsystem()
+    {
+        var list = new List<XRInputSubsystem>();
+        SubsystemManager.GetSubsystems(list);
+        return (list.Count > 0) ? list[0] : null;
+    }
+
+    void OnTrackingOriginUpdated(XRInputSubsystem _)
+    {
+        isCameraInit = false;
+    }
+
+    private void UpdateCamera()
+    {
+        // Only on Init request
+        if (!isCameraInit)
+        {
+            // Wait for XR system to init(Camera.main is null until then)
+            if (!Camera.main)
+            {
+                return;
+            }
+
+            // forward direction without head tilt
+            Vector3 forwardFlat = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
+            if (forwardFlat.sqrMagnitude < 0.001f)
+            {
+                forwardFlat = Camera.main.transform.forward;
+            }
+
+            // move the screen in front of the user
+            Vector3 p2 = Camera.main.transform.position + forwardFlat * DISTANCE_TO_SCREEN_IN_M;
+            p2.y = Camera.main.transform.position.y;
+            moviePlayerGO.transform.position = p2;
+
+            // after xr init -> register origin updated delegate
+            XRInputSubsystem xr = GetXRSubsystem();
+            if (xr != null)
+            {
+                xr.trackingOriginUpdated -= OnTrackingOriginUpdated;
+                xr.trackingOriginUpdated += OnTrackingOriginUpdated;
+                isCameraInit = true;
+            }
+        }
+
+        // every Update
+        if (Camera.main)
+        {
+            // rotation - lazy follow behaviour
+            Vector3 lookDir = moviePlayerGO.transform.position - Camera.main.transform.position;
+            lookDir.y = 0f;
+            if (lookDir.sqrMagnitude > 0.001f)
+            {
+                moviePlayerGO.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
+            }
+        }
+
     }
 }
