@@ -39,11 +39,13 @@ public class DichopticMovieSceneManager : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI versionTextBox;
 
+    [SerializeField]
+    public TextMeshProUGUI totalPlayedTimeTextBox;
+    private int sessionSecondsWatched = 0;
+
     private DichopticMovieSettingsManager settingsManager = null;
 
-    private float timerValue;
     private float timerStep = 10;
-
     private bool wasMenuButtonPressed = false;
 
     void Awake()
@@ -55,9 +57,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
     void Start()
     {
         versionTextBox.text = "v" + Application.version;
+        UpdateTimeWatchedText(0);
         RestoreInitialSettingsFromPersistance();
         PopulateMovieDropdown();
         StartCoroutine(RunBlobChangeTimer());
+        StartCoroutine(UpdateSecondsWatched());
     }
 
     // Update is called once per frame
@@ -75,6 +79,12 @@ public class DichopticMovieSceneManager : MonoBehaviour
         }
         wasMenuButtonPressed = isPressedRight || isPressedLeft;
 
+    }
+
+    private void UpdateTimeWatchedText(int seconds)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(seconds);
+        totalPlayedTimeTextBox.text = $"Watched: {t.Hours}h {t.Minutes:D2} min";
     }
 
     private void RestoreInitialSettingsFromPersistance()
@@ -219,11 +229,22 @@ public class DichopticMovieSceneManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(timerStep);
-            timerValue += timerStep;
 
             float f1 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
             float f2 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
             dichopticFilterMaterial.SetVector("_BlobOffset", new Vector2(f1, f2));
+        }
+    }
+    IEnumerator UpdateSecondsWatched()
+    {
+        while (true)
+        {
+            if (moviePlayer.isPlaying)
+            {
+                sessionSecondsWatched++;
+                UpdateTimeWatchedText(sessionSecondsWatched);
+            }
+            yield return new WaitForSeconds(1);
         }
     }
 }

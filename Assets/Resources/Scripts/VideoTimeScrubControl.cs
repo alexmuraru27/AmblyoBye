@@ -42,7 +42,6 @@ namespace Unity.VRTemplate
         bool m_HideSliderAfterFewSeconds;
 
         bool m_IsDragging;
-        bool m_VideoIsPlaying;
         bool m_VideoJumpPending;
         long m_LastFrameBeforeScrub;
         VideoPlayer m_VideoPlayer;
@@ -50,19 +49,13 @@ namespace Unity.VRTemplate
         void Start()
         {
             m_VideoPlayer = GetComponent<VideoPlayer>();
-            if (!m_VideoPlayer.playOnAwake)
-            {
-                m_VideoPlayer.playOnAwake = true; // Set play on awake for next enable.
-                m_VideoPlayer.Play(); // Play video to load first frame.
-                VideoStop(); // Stop the video to set correct state and pause frame.
-            }
-            else
-            {
-                VideoPlay(); // Play to ensure correct state.
-            }
+            m_ButtonPlayOrPauseIcon.sprite = m_IconPause;
+            m_ButtonPlayOrPause.SetActive(false);
 
             if (m_ButtonPlayOrPause != null)
+            {
                 m_ButtonPlayOrPause.SetActive(false);
+            }
         }
 
         void OnEnable()
@@ -77,7 +70,9 @@ namespace Unity.VRTemplate
             m_Slider.onValueChanged.AddListener(OnSliderValueChange);
             m_Slider.gameObject.SetActive(true);
             if (m_HideSliderAfterFewSeconds)
+            {
                 StartCoroutine(HideSliderAfterSeconds());
+            }
         }
 
         void Update()
@@ -100,6 +95,15 @@ namespace Unity.VRTemplate
                     var progress = (float)m_VideoPlayer.frame / m_VideoPlayer.frameCount;
                     m_Slider.value = progress;
                 }
+            }
+
+            if (m_VideoPlayer.isPlaying)
+            {
+                m_ButtonPlayOrPauseIcon.sprite = m_IconPause;
+            }
+            else
+            {
+                m_ButtonPlayOrPauseIcon.sprite = m_IconPlay;
             }
         }
 
@@ -144,7 +148,7 @@ namespace Unity.VRTemplate
 
         public void PlayOrPauseVideo()
         {
-            if (m_VideoIsPlaying)
+            if (m_VideoPlayer.isPlaying)
             {
                 VideoStop();
             }
@@ -175,7 +179,6 @@ namespace Unity.VRTemplate
 
         void VideoStop()
         {
-            m_VideoIsPlaying = false;
             m_VideoPlayer.Pause();
             m_ButtonPlayOrPauseIcon.sprite = m_IconPlay;
             m_ButtonPlayOrPause.SetActive(true);
@@ -183,7 +186,6 @@ namespace Unity.VRTemplate
 
         void VideoPlay()
         {
-            m_VideoIsPlaying = true;
             m_VideoPlayer.Play();
             m_ButtonPlayOrPauseIcon.sprite = m_IconPause;
             m_ButtonPlayOrPause.SetActive(false);

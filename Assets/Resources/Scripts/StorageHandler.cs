@@ -8,20 +8,20 @@ public class StorageHandler
     {
         foreach (TypeSafeDir typeSafeDir in TypeSafeDir.getAllDirs())
         {
-            string dirPath = AndroidPersistancePathToDir(typeSafeDir);
-            if (!Directory.Exists(dirPath))
+            string dirAbsPath = DirNameToAndroidPersistancePath(typeSafeDir);
+            if (!Directory.Exists(dirAbsPath))
             {
-                Directory.CreateDirectory(dirPath);
+                Directory.CreateDirectory(dirAbsPath);
             }
         }
     }
     public static List<string> GetFilePathsFromDir(TypeSafeDir dirName)
     {
         List<string> filePathList = new List<string>();
-        string dirPath = AndroidPersistancePathToDir(dirName);
-        if (Directory.Exists(dirPath))
+        string dirAbsPath = DirNameToAndroidPersistancePath(dirName);
+        if (Directory.Exists(dirAbsPath))
         {
-            string[] allfiles = Directory.GetFiles(dirPath, "*.*", SearchOption.AllDirectories);
+            string[] allfiles = Directory.GetFiles(dirAbsPath, "*.*", SearchOption.AllDirectories);
             filePathList.AddRange(allfiles);
         }
         return filePathList;
@@ -39,7 +39,7 @@ public class StorageHandler
         return fileNamesList;
     }
 
-    public static string AndroidPersistancePathToDir(TypeSafeDir dirName)
+    public static string DirNameToAndroidPersistancePath(TypeSafeDir dirName)
     {
         return Application.persistentDataPath + "/../" + dirName;
     }
@@ -51,7 +51,7 @@ public class StorageHandler
         InitDirectoryTree();
         bool isFile = false;
         string fileContent = "";
-        string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
+        string filePath = Path.Join(DirNameToAndroidPersistancePath(dirName), filename);
 
         if (File.Exists(filePath))
         {
@@ -71,7 +71,7 @@ public class StorageHandler
     public static void WriteFile(TypeSafeDir dirName, string filename, string content)
     {
         InitDirectoryTree();
-        string filePath = Path.Join(AndroidPersistancePathToDir(dirName), filename);
+        string filePath = Path.Join(DirNameToAndroidPersistancePath(dirName), filename);
         try
         {
             File.WriteAllText(filePath, content);

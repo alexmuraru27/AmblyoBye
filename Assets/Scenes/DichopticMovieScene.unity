@@ -177,6 +177,7 @@ MonoBehaviour:
   blobTimerSlider: {fileID: 5524335281156788112}
   settingsUI: {fileID: 633198948}
   versionTextBox: {fileID: 7995039388752567616}
+  totalPlayedTimeTextBox: {fileID: 1602410955}
 --- !u!328 &298591707 stripped
 VideoPlayer:
   m_CorrespondingSourceObject: {fileID: 1654779967405303641, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
@@ -445,6 +446,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1308957977763672790, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
   m_PrefabInstance: {fileID: 7995039388752567615}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1602410955 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8079994186180921562, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+  m_PrefabInstance: {fileID: 7995039388752567615}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1970030558 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6233888821138338248, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
@@ -470,6 +482,10 @@ PrefabInstance:
     - target: {fileID: 37986870974899576, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 928513143801653817, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_Name
+      value: Watched Time Text
       objectReference: {fileID: 0}
     - target: {fileID: 996649147732273258, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -499,6 +515,14 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 116574808}
+    - target: {fileID: 1654779967405303641, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_Looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654779967405303641, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1780796937214734347, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -751,6 +775,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4247892895621462361, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247892895621462361, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247892895621462361, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -272
+      objectReference: {fileID: 0}
     - target: {fileID: 4788717867078042037, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
       propertyPath: m_FacingEntered.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
@@ -1002,6 +1038,26 @@ PrefabInstance:
     - target: {fileID: 7948866142177707869, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079994186180921562, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079994186180921562, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079994186180921562, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079994186180921562, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079994186180921562, guid: d025ba1f92bce034b8ec5cf86ee68ba1, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
