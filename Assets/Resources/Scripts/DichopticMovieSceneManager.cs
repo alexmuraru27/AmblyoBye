@@ -17,10 +17,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public static DichopticMovieSceneManager Instance;
 
     [SerializeField]
-    public GameObject moviePlayerGO;
+    public GameObject moviePlayerObject;
 
     [SerializeField]
-    public VideoPlayer moviePlayer;
+    public VideoPlayer videoPlayer;
+
     [SerializeField]
     public Material dichopticFilterMaterial;
 
@@ -44,6 +45,9 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     [SerializeField]
     public TextMeshProUGUI versionTextBox;
+
+    [SerializeField]
+    public ConfirmationDialog confirmationDialog;
 
     [SerializeField]
     public TextMeshProUGUI totalPlayedTimeTextBox;
@@ -102,7 +106,31 @@ public class DichopticMovieSceneManager : MonoBehaviour
         RestoreSettingsPanelFromManager(settingsManager);
     }
 
-    public void ResetSettings()
+    public void ResetSettingsButtonHandler()
+    {
+        confirmationDialog.Show("Reset settings to their default values?", yes =>
+        {
+            if (yes)
+            {
+                ResetSettings();
+            }
+        });
+    }
+
+    public void DeleteSelectedMovieButtonHandler()
+    {
+        string movieToDelete = movieListDropdown.captionText.text;
+        string deletionConfirmationMessage = $"Are you sure you want to delete {movieToDelete} ?";
+        confirmationDialog.Show(deletionConfirmationMessage, yes =>
+        {
+            if (yes)
+            {
+                DeleteSelectedMovie(movieToDelete);
+            }
+        });
+    }
+
+    private void ResetSettings()
     {
         settingsManager = new DichopticMovieSettingsManager(0.5F, 1.0F, 70.0F, 5.0F);
         settingsManager.StoreSettings();
@@ -203,14 +231,14 @@ public class DichopticMovieSceneManager : MonoBehaviour
             {
                 if (filepath.Contains(selectedFilename))
                 {
-                    moviePlayer.source = VideoSource.Url;
+                    videoPlayer.source = VideoSource.Url;
                     // Send audio directly to Quest audio hw
-                    moviePlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+                    videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
                     // At least 1 audio track controlled
-                    moviePlayer.controlledAudioTrackCount = 1;
-                    moviePlayer.GetComponent<AudioSource>().volume = 1.0f;
-                    moviePlayer.url = filepath;
-                    moviePlayer.Play();
+                    videoPlayer.controlledAudioTrackCount = 1;
+                    videoPlayer.GetComponent<AudioSource>().volume = 1.0f;
+                    videoPlayer.url = filepath;
+                    videoPlayer.Play();
                     settingsUI.SetActive(false);
                     break;
                 }
@@ -218,12 +246,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
         }
     }
 
-    public void DeleteSelectedMovie()
+    private void DeleteSelectedMovie(string movieSelectedFilename)
     {
-        string selectedFilename = movieListDropdown.captionText.text;
-        if (selectedFilename != EMPTY_MOVIE_NAME)
+        if (movieSelectedFilename != EMPTY_MOVIE_NAME)
         {
-            StorageHandler.DeleteFileFromDir(TypeSafeDir.Movies, selectedFilename);
+            StorageHandler.DeleteFileFromDir(TypeSafeDir.Movies, movieSelectedFilename);
             PopulateMovieDropdown();
         }
     }
@@ -244,7 +271,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         while (true)
         {
-            if (moviePlayer.isPlaying)
+            if (videoPlayer.isPlaying)
             {
                 sessionSecondsWatched++;
                 UpdateTimeWatchedText(sessionSecondsWatched);
@@ -286,7 +313,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
             // move the screen in front of the user
             Vector3 p2 = Camera.main.transform.position + forwardFlat * DISTANCE_TO_SCREEN_IN_M;
             p2.y = Camera.main.transform.position.y;
-            moviePlayerGO.transform.position = p2;
+            moviePlayerObject.transform.position = p2;
 
             // after xr init -> register origin updated delegate
             XRInputSubsystem xr = GetXRSubsystem();
@@ -302,11 +329,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
         if (Camera.main)
         {
             // rotation - lazy follow behaviour
-            Vector3 lookDir = moviePlayerGO.transform.position - Camera.main.transform.position;
+            Vector3 lookDir = moviePlayerObject.transform.position - Camera.main.transform.position;
             lookDir.y = 0f;
             if (lookDir.sqrMagnitude > 0.001f)
             {
-                moviePlayerGO.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
+                moviePlayerObject.transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
             }
         }
 
