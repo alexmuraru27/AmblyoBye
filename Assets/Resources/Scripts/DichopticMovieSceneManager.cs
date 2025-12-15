@@ -51,15 +51,18 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     [SerializeField]
     public TextMeshProUGUI totalPlayedTimeTextBox;
-    private int sessionSecondsWatched = 0;
+    private float sessionSecondsWatched = 0f;
     private float blobTimerDuration = 10;
     private bool wasMenuButtonPressed = false;
     private bool isCameraInit = false;
     private DichopticMovieSettingsManager settingsManager = null;
 
+    private DailyUsageTracker usageTracker = null;
+
     void Awake()
     {
         Instance = this;
+        usageTracker = new DailyUsageTracker();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -70,7 +73,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         RestoreInitialSettingsFromPersistance();
         PopulateMovieDropdown();
         StartCoroutine(RunBlobChangeTimer());
-        StartCoroutine(UpdateSecondsWatched());
     }
 
     // Update is called once per frame
@@ -88,6 +90,13 @@ public class DichopticMovieSceneManager : MonoBehaviour
             wasMenuButtonPressed = true;
         }
         wasMenuButtonPressed = isPressedRight || isPressedLeft;
+
+        if (videoPlayer.isPlaying)
+        {
+            usageTracker?.Tick(Time.deltaTime);
+            sessionSecondsWatched += Time.deltaTime;
+            UpdateTimeWatchedText((int)sessionSecondsWatched);
+        }
     }
 
     private void UpdateTimeWatchedText(int seconds)
@@ -265,18 +274,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
             float f1 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
             float f2 = (float)(32748 * 2.0 * (random.NextDouble() - 0.5));
             dichopticFilterMaterial.SetVector("_BlobOffset", new Vector2(f1, f2));
-        }
-    }
-    IEnumerator UpdateSecondsWatched()
-    {
-        while (true)
-        {
-            if (videoPlayer.isPlaying)
-            {
-                sessionSecondsWatched++;
-                UpdateTimeWatchedText(sessionSecondsWatched);
-            }
-            yield return new WaitForSeconds(1);
         }
     }
 
