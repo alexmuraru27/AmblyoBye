@@ -3,7 +3,7 @@
   
 [<img src="Docu/amblyobye.png" width="200" />](Docu/amblyobye.png)
 
-![Version](https://img.shields.io/badge/version-1.2-green)
+![Version](https://img.shields.io/badge/version-1.3-green)
 [![Contact](https://img.shields.io/badge/contact-amblyobye@gmail.com-red)](mailto:amblyobye@gmail.com)
 [![Donate](https://img.shields.io/badge/donate-PayPal-blue)](https://www.paypal.com/donate/?hosted_button_id=BS53UFQK6Z62L)
 
@@ -65,7 +65,10 @@ Studies have shown that presenting different images to each eye can promote bino
 | ![left_eye](Docu/left_eye.jpg) | ![right_eye](Docu/right_eye.jpg) |
 
 **Settings Screen**  
-![settings](Docu/settings.jpg)
+![settings](Docu/settings_panel_v_1_3.jpg)
+
+**Usage Statistics Screen**  
+![statistics](Docu/status_panel.jpg)
 
 ---
 
