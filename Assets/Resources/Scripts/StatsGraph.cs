@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using XCharts.Runtime;
+using System.Globalization;
 
 public class StatsGraph : MonoBehaviour
 {
@@ -29,7 +30,10 @@ public class StatsGraph : MonoBehaviour
 
     private void Start()
     {
-        if (!ValidateRefs()) return;
+        if (!ValidateRefs())
+        {
+            return;
+        }
 
         barChart.ClearData();
         WireDropdowns();
@@ -64,17 +68,26 @@ public class StatsGraph : MonoBehaviour
         yearDropdown.ClearOptions();
 
         if (years.Count == 0)
+        {
             years.Add(DateTime.UtcNow.Year);
+        }
+
+        years.Sort();
 
         var opts = new List<TMP_Dropdown.OptionData>();
         foreach (var y in years)
+        {
             opts.Add(new TMP_Dropdown.OptionData(y.ToString()));
+        }
 
         yearDropdown.AddOptions(opts);
-        yearDropdown.value = 0;
+
+        // select most recent year (last)
+        yearDropdown.value = years.Count - 1;
         yearDropdown.RefreshShownValue();
 
         suppressDropdownEvents = false;
+
         PopulateMonthDropdown(GetSelectedYear());
     }
 
@@ -86,30 +99,49 @@ public class StatsGraph : MonoBehaviour
         monthDropdown.ClearOptions();
 
         if (months.Count == 0)
+        {
             months.Add(DateTime.UtcNow.Month);
+        }
+
+        months.Sort();
 
         var opts = new List<TMP_Dropdown.OptionData>();
+        var monthNames = CultureInfo.InvariantCulture.DateTimeFormat.AbbreviatedMonthNames;
+
         foreach (var m in months)
-            opts.Add(new TMP_Dropdown.OptionData(m.ToString("D2")));
+        {
+            // m is 1–12 → monthNames is 0–11
+            string label = monthNames[m - 1];
+            opts.Add(new TMP_Dropdown.OptionData(label));
+        }
 
         monthDropdown.AddOptions(opts);
-        monthDropdown.value = 0;
+
+        // select most recent month (last)
+        monthDropdown.value = months.Count - 1;
         monthDropdown.RefreshShownValue();
 
         suppressDropdownEvents = false;
+
         LoadSelectedMonthAndRebuild();
     }
+
 
     private void OnYearChanged(int _)
     {
         if (!suppressDropdownEvents)
+        {
             PopulateMonthDropdown(GetSelectedYear());
+        }
+
     }
 
     private void OnMonthChanged(int _)
     {
         if (!suppressDropdownEvents)
+        {
             LoadSelectedMonthAndRebuild();
+        }
     }
 
     private int GetSelectedYear() =>
@@ -132,13 +164,15 @@ public class StatsGraph : MonoBehaviour
     public void Rebuild()
     {
         barChart.ClearData();
-
         if (usage == null || usage.Count == 0)
+        {
             return;
+
+        }
 
         for (int i = 0; i < usage.Count; i++)
         {
-            barChart.AddXAxisData(usage[i].Day.Day.ToString());
+            barChart.AddXAxisData(usage[i].Date.Day.ToString());
             barChart.AddData(0, usage[i].Minutes);
         }
 

@@ -20,7 +20,7 @@ public sealed class DailyUsageTracker
 {
     public struct DailyUsage
     {
-        public DateTime Day;   // UTC date (00:00:00)
+        public DateTime Date;   // UTC date (00:00:00)
         public int Minutes;    // minutes watched that day
     }
 
@@ -137,7 +137,7 @@ public sealed class DailyUsageTracker
 
             result.Add(new DailyUsage
             {
-                Day = new DateTime(year, month, d, 0, 0, 0, DateTimeKind.Utc),
+                Date = new DateTime(year, month, d, 0, 0, 0, DateTimeKind.Utc),
                 Minutes = minutes
             });
         }
@@ -331,6 +331,11 @@ public sealed class DailyUsageTracker
             {
                 continue;
             }
+            line = System.Text.RegularExpressions.Regex.Replace(
+                line,
+                @"[^a-zA-Z0-9,;\r\n]",
+                string.Empty
+            );
 
             // Skip header if present
             if (firstLine)
