@@ -8,7 +8,7 @@ public class StorageHandler
     {
         foreach (TypeSafeDir typeSafeDir in TypeSafeDir.getAllDirs())
         {
-            string dirAbsPath = DirNameToAndroidPersistancePath(typeSafeDir);
+            string dirAbsPath = ResolveDataDirectoryPath(typeSafeDir);
             if (!Directory.Exists(dirAbsPath))
             {
                 Directory.CreateDirectory(dirAbsPath);
@@ -18,7 +18,7 @@ public class StorageHandler
     public static List<string> GetFilePathsFromDir(TypeSafeDir dirName)
     {
         List<string> filePathList = new List<string>();
-        string dirAbsPath = DirNameToAndroidPersistancePath(dirName);
+        string dirAbsPath = ResolveDataDirectoryPath(dirName);
         if (Directory.Exists(dirAbsPath))
         {
             string[] allfiles = Directory.GetFiles(dirAbsPath, "*.*", SearchOption.AllDirectories);
@@ -39,9 +39,17 @@ public class StorageHandler
         return fileNamesList;
     }
 
-    public static string DirNameToAndroidPersistancePath(TypeSafeDir dirName)
+    // Resolves the absolute path of a data directory (Movies/Settings/Stats) for the current platform.
+    public static string ResolveDataDirectoryPath(TypeSafeDir dirName)
     {
+#if UNITY_STANDALONE_WIN
+        // Windows builds keep Movies/Settings next to the .exe, so the install stays
+        // self-contained and portable instead of relying on the OS-managed AppData path.
+        string executableDirectory = Path.GetDirectoryName(Application.dataPath);
+        return Path.Combine(executableDirectory, dirName.ToString());
+#else
         return Application.persistentDataPath + "/../" + dirName;
+#endif
     }
 
 
@@ -51,7 +59,7 @@ public class StorageHandler
         InitDirectoryTree();
         bool isFile = false;
         string fileContent = "";
-        string filePath = Path.Join(DirNameToAndroidPersistancePath(dirName), filename);
+        string filePath = Path.Join(ResolveDataDirectoryPath(dirName), filename);
 
         if (File.Exists(filePath))
         {
@@ -71,7 +79,7 @@ public class StorageHandler
     public static void WriteFile(TypeSafeDir dirName, string filename, string content)
     {
         InitDirectoryTree();
-        string filePath = Path.Join(DirNameToAndroidPersistancePath(dirName), filename);
+        string filePath = Path.Join(ResolveDataDirectoryPath(dirName), filename);
         try
         {
             File.WriteAllText(filePath, content);
@@ -115,9 +123,11 @@ public class TypeSafeDir
 
     public static TypeSafeDir Settings { get { return new TypeSafeDir("Settings"); } }
 
+    public static TypeSafeDir Stats { get { return new TypeSafeDir("Stats"); } }
+
     public static List<TypeSafeDir> getAllDirs()
     {
-        return new List<TypeSafeDir>() { Movies, Settings };
+        return new List<TypeSafeDir>() { Movies, Settings, Stats };
     }
     public override string ToString()
     {

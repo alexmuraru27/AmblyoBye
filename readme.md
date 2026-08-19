@@ -3,9 +3,8 @@
   
 [<img src="Docu/amblyobye.png" width="200" />](Docu/amblyobye.png)
 
-![Version](https://img.shields.io/badge/version-1.3-green)
+![Version](https://img.shields.io/badge/version-1.4-green)
 [![Contact](https://img.shields.io/badge/contact-amblyobye@gmail.com-red)](mailto:amblyobye@gmail.com)
-[![Donate](https://img.shields.io/badge/donate-PayPal-blue)](https://www.paypal.com/donate/?hosted_button_id=BS53UFQK6Z62L)
 
 </div>
 
@@ -18,6 +17,7 @@
     - [VR Controller (Meta Quest 3)](#vr-controller-meta-quest-3)
     - [🧩 In-App Settings Panel](#-in-app-settings-panel)
     - [Suggested starting settings](#suggested-starting-settings)
+  - [🏗️ Building the Project](#️-building-the-project)
   - [📁 Installation \& Setup](#-installation--setup)
     - [1. Installation](#1-installation)
     - [2. Initial Launch - Quest3](#2-initial-launch---quest3)
@@ -25,6 +25,7 @@
     - [4. Movie Conversion - PC](#4-movie-conversion---pc)
     - [5. Adding Movies - PC](#5-adding-movies---pc)
     - [6. Relaunch Application - Quest3](#6-relaunch-application---quest3)
+    - [7. PC / Standalone (PCVR \& Streaming) Setup](#7-pc--standalone-pcvr--streaming-setup)
   - [📚 Research Background](#-research-background)
   - [👁️ Personal Experience](#️-personal-experience)
   - [⚠️ Disclaimer](#️-disclaimer)
@@ -34,8 +35,9 @@
 
 # AmblyoBye
 
-**AmblyoBye** is a virtual reality (VR) application designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing, developed using Unity 6000.2.11f1 for Meta Quest2/3 VR,
-Leveraging the capabilities of the Meta Quest 3 VR headset, AmblyoBye offers an engaging and passive therapeutic experience aimed at improving visual acuity in individuals with amblyopia.
+**AmblyoBye** is a virtual reality (VR) application designed to assist in the treatment of amblyopia (commonly known as "lazy eye") through dichoptic movie viewing, developed using Unity 6000.2.11f1 with the OpenXR standard,
+originally built with Meta Quest 2/3 in mind. AmblyoBye offers an engaging and passive therapeutic experience aimed at improving visual acuity in individuals with amblyopia, and is also playable on a Windows PC,
+either standalone or streamed to any OpenXR-compatible headset (Quest Link/Air Link, Virtual Desktop, SteamVR, etc.).
 
 ---
 
@@ -47,6 +49,10 @@ Studies have shown that presenting different images to each eye can promote bino
 ## 🛠️ Supported Devices
 - Meta Oculus Quest 2 (https://www.meta.com/quest/products/quest-2/)
 - Meta Oculus Quest 3 (https://www.meta.com/quest/quest-3/)
+- Any other Android-based OpenXR headset (min. Android 8.1 / API level 27)
+- Windows PC, running the Standalone build directly or streamed to any OpenXR-capable headset via Quest Link/Air Link, Virtual Desktop, SteamVR, or the equivalent streaming tool for your headset (commonly referred to as "PCVR")
+
+> ℹ️ AmblyoBye uses Unity's OpenXR plug-in (not a vendor-specific SDK), so controller input (thumbstick click to toggle the settings panel) works with any headset exposing a standard OpenXR controller binding.
 
 ## 🛠️ Features
 
@@ -128,6 +134,21 @@ Suggested starting settings that you can play around:
  - Blob time 5
 ---
 
+## 🏗️ Building the Project
+
+Requires Unity `6000.2.11f1` with Android Build Support installed.
+
+**Android APK**
+1. `File > Build Profiles` → select **Android** → **Switch Platform**
+2. Untick **Build App Bundle (Google Play)**
+3. **Build** → pick an output folder → produces `AmblyoBye.apk`
+
+**Windows Standalone (PCVR)**
+1. `File > Build Profiles` → select **Windows** → **Switch Platform**
+2. **Build** → pick an output folder → produces `AmblyoBye.exe` + `AmblyoBye_Data\`
+
+---
+
 ## 📁 Installation & Setup
 
 ### 1. Installation 
@@ -169,6 +190,37 @@ Quest 3\Internal shared storage\Android\data\com.amblyobye.amblyobye\Movies
 
 After adding movies, reopen AmblyoBye.  
 Navigate to the "Movie List" category to select and play your movie from the dropdown list.
+
+### 7. PC / Standalone (PCVR & Streaming) Setup
+
+AmblyoBye can also run as a Windows Standalone build, either played directly on your monitor or streamed to any OpenXR-compatible headset:
+
+1. Build the project for the **Windows Standalone** platform (`File > Build Profiles` in Unity — see [Building the Project](#️-building-the-project)), or download a PC release if available.
+2. Install and start your headset's streaming/runtime software before launching AmblyoBye, e.g.:
+   - **Meta Quest**: Oculus PC app (Quest Link / Air Link)
+   - **Any OpenXR headset**: Virtual Desktop, SteamVR, or the manufacturer's own streaming assistant
+3. Set the streaming software's runtime as the active **OpenXR Runtime** (usually configurable from the runtime's own settings app), then launch `AmblyoBye.exe`.
+4. On Windows, movies, settings, and usage statistics are all stored next to `AmblyoBye.exe`, keeping the install fully self-contained and portable. These folders (`Movies`, `Settings`, `Stats`) are created automatically the first time you run AmblyoBye — you don't need to create them yourself. The folder structure looks like this:
+
+   ```
+   <the folder you built/extracted to>\
+   ├── AmblyoBye.exe
+   ├── AmblyoBye_Data\              (Unity engine/game data - do not modify)
+   ├── UnityCrashHandler64.exe
+   ├── ...                         (other Unity runtime files)
+   ├── Movies\                     <- put your converted movies here
+   │   └── YourMovie.mp4
+   ├── Settings\                   <- app settings (DichopticMovieSettings.cfg)
+   └── Stats\                      <- usage history (YYYY\MM.csv)
+   ```
+
+   After the first launch, copy your converted movies into the `Movies` folder, following the same format guidance as steps 3-4 above.
+
+5. **No sound?**
+   1. Set your headset's audio device (e.g. "Oculus Virtual Audio Device") as the Windows default **before** launching AmblyoBye.
+   2. Check Windows isn't muted, and check **Volume Mixer** for `AmblyoBye.exe`.
+   3. Movie silent but UI clicks work? Filename has `Ddp5.1`/`Dd+5.1` (Dolby Digital Plus) — install **"Dolby Digital Plus decoder for PC OEMs"** (Microsoft Store), or re-encode audio to AAC via HandBrake.
+6. Relaunch AmblyoBye and select your movie from the "Movie List" dropdown, same as on Quest.
 
 ---
 

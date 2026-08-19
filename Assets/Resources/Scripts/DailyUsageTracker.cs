@@ -1,5 +1,7 @@
-// Storage layout (under Application.persistentDataPath/<rootFolderName>/):
-//   Usage/
+// Storage layout (under the platform-appropriate data root resolved by
+// StorageHandler.ResolveDataDirectoryPath -- next to the .exe on Windows Standalone,
+// or Application.persistentDataPath/.. on other platforms -- see StorageHandler.cs):
+//   Stats/
 //     2025/                (directory per year)
 //       01.csv             (file per month)
 //       02.csv
@@ -34,7 +36,7 @@ public sealed class DailyUsageTracker
 
     public DailyUsageTracker()
     {
-        _rootDir = Application.persistentDataPath + "/../" + "Stats";
+        _rootDir = StorageHandler.ResolveDataDirectoryPath(TypeSafeDir.Stats);
         InitStorage();
     }
 

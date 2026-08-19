@@ -6,6 +6,7 @@ using TMPro;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit.UI;
 
@@ -13,6 +14,11 @@ public class DichopticMovieSceneManager : MonoBehaviour
 {
     private const float DISTANCE_TO_SCREEN_IN_M = 2.0f;
     private string EMPTY_MOVIE_NAME = "";
+
+    // Generic Input System XR controller bindings (device-agnostic: works with any
+    // OpenXR-mapped controller exposing the XRController layout, e.g. Quest, Pico, Vive, Index, WMR).
+    private const string LEFT_THUMBSTICK_CLICK_BINDING = "<XRController>{LeftHand}/{Primary2DAxisClick}";
+    private const string RIGHT_THUMBSTICK_CLICK_BINDING = "<XRController>{RightHand}/{Primary2DAxisClick}";
 
     public static DichopticMovieSceneManager Instance;
 
@@ -53,16 +59,51 @@ public class DichopticMovieSceneManager : MonoBehaviour
     public TextMeshProUGUI totalPlayedTimeTextBox;
     private float sessionSecondsWatched = 0f;
     private float blobTimerDuration = 10;
-    private bool wasMenuButtonPressed = false;
     private bool isCameraInit = false;
     private DichopticMovieSettingsManager settingsManager = null;
 
     private DailyUsageTracker usageTracker = null;
 
+    // Toggle-settings-UI input actions, built entirely in code so no manual Editor
+    // wiring is required and any XRController-compatible device works out of the box.
+    private InputAction leftThumbstickClickAction;
+    private InputAction rightThumbstickClickAction;
+
     void Awake()
     {
         Instance = this;
         usageTracker = new DailyUsageTracker();
+
+        leftThumbstickClickAction = new InputAction(name: "ToggleSettingsUI (Left)", type: InputActionType.Button, binding: LEFT_THUMBSTICK_CLICK_BINDING);
+        rightThumbstickClickAction = new InputAction(name: "ToggleSettingsUI (Right)", type: InputActionType.Button, binding: RIGHT_THUMBSTICK_CLICK_BINDING);
+
+        leftThumbstickClickAction.performed += OnToggleSettingsUIRequested;
+        rightThumbstickClickAction.performed += OnToggleSettingsUIRequested;
+    }
+
+    void OnEnable()
+    {
+        leftThumbstickClickAction.Enable();
+        rightThumbstickClickAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        leftThumbstickClickAction.Disable();
+        rightThumbstickClickAction.Disable();
+    }
+
+    void OnDestroy()
+    {
+        leftThumbstickClickAction.performed -= OnToggleSettingsUIRequested;
+        rightThumbstickClickAction.performed -= OnToggleSettingsUIRequested;
+        leftThumbstickClickAction.Dispose();
+        rightThumbstickClickAction.Dispose();
+    }
+
+    private void OnToggleSettingsUIRequested(InputAction.CallbackContext context)
+    {
+        settingsUI.SetActive(!settingsUI.activeSelf);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -79,17 +120,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
     void Update()
     {
         UpdateCamera();
-        // If Menu button -> Show Settings UI
-        bool isPressedLeft;
-        bool isPressedRight;
-        InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out isPressedRight);
-        InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out isPressedLeft);
-        if ((isPressedRight || isPressedLeft) && !wasMenuButtonPressed)
-        {
-            settingsUI.SetActive(!settingsUI.activeSelf);
-            wasMenuButtonPressed = true;
-        }
-        wasMenuButtonPressed = isPressedRight || isPressedLeft;
 
         if (videoPlayer.isPlaying)
         {
