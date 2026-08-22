@@ -20,6 +20,12 @@ public class DichopticMovieSceneManager : MonoBehaviour
     private const string LEFT_THUMBSTICK_CLICK_BINDING = "<XRController>{LeftHand}/{Primary2DAxisClick}";
     private const string RIGHT_THUMBSTICK_CLICK_BINDING = "<XRController>{RightHand}/{Primary2DAxisClick}";
 
+    private static readonly HashSet<string> AllowedMovieExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".asf", ".avi", ".dv", ".m4v", ".mkv", ".mp4", ".mov", ".mpg", ".mpeg", ".ogv", ".vp8",
+        ".webm", ".wmv"
+    };
+
     public static DichopticMovieSceneManager Instance;
 
     [SerializeField]
@@ -190,13 +196,12 @@ public class DichopticMovieSceneManager : MonoBehaviour
         List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
         // Order by name ignoring the case
         availableMovies.Sort(StringComparer.OrdinalIgnoreCase);
-        List<string> allowedExtensions = new() { ".asf", ".avi", ".dv", ".m4v", ".mp4", ".mov", ".mpg", ".mpeg", ".m4v", ".ogv", ".vp8", ".webm", ".wmv" };
 
         movieListDropdown.ClearOptions();
         movieListDropdown.AddOptions(new List<string> { EMPTY_MOVIE_NAME });
         foreach (string movieFileName in availableMovies)
         {
-            if (allowedExtensions.Contains(Path.GetExtension(movieFileName)))
+            if (AllowedMovieExtensions.Contains(Path.GetExtension(movieFileName)))
             {
                 movieListDropdown.AddOptions(new List<string> { movieFileName });
             }
