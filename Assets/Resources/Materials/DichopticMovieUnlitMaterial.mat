@@ -101,6 +101,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlobClipping: 0
+    - _BlobOpacity: 1
     - _BlobOffset: 6.54
     - _BlobOffset_1: 40.39
     - _BlobRandomOffset: 6.8
@@ -119,6 +120,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _Luminance: 1
     - _NoiseSeed: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
