@@ -9,6 +9,7 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit.UI;
+using Unity.VRTemplate;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -63,10 +64,13 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     [SerializeField]
     public TextMeshProUGUI totalPlayedTimeTextBox;
+
     private float sessionSecondsWatched = 0f;
     private float blobTimerDuration = 10;
     private bool isCameraInit = false;
     private DichopticMovieSettingsManager settingsManager = null;
+    private TMP_Dropdown renderResolutionDropdown;
+    private VideoPlayerRenderTexture videoPlayerRenderTexture;
 
     private DailyUsageTracker usageTracker = null;
 
@@ -117,6 +121,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         versionTextBox.text = "v" + Application.version;
         UpdateTimeWatchedText(0);
+        InitializeRenderResolutionUI();
         RestoreInitialSettingsFromPersistance();
         PopulateMovieDropdown();
         StartCoroutine(RunBlobChangeTimer());
@@ -139,6 +144,33 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         TimeSpan t = TimeSpan.FromSeconds(seconds);
         totalPlayedTimeTextBox.text = $"Watched: {t.Hours}h {t.Minutes:D2} min";
+    }
+
+    private void InitializeRenderResolutionUI()
+    {
+        videoPlayerRenderTexture = videoPlayer.GetComponent<VideoPlayerRenderTexture>();
+        renderResolutionDropdown = FindNamedComponent<TMP_Dropdown>(settingsUI, "Render Resolution Dropdown");
+
+        PopulateRenderResolutionDropdown();
+        renderResolutionDropdown.onValueChanged.AddListener(ChangeRenderResolution);
+    }
+
+    private static T FindNamedComponent<T>(GameObject root, string objectName) where T : Component
+    {
+        return Array.Find(root.GetComponentsInChildren<T>(true), component => component.gameObject.name == objectName);
+    }
+
+    private void PopulateRenderResolutionDropdown()
+    {
+        renderResolutionDropdown.ClearOptions();
+        var options = new List<string>(RenderResolutionPresets.All.Length);
+        foreach (RenderResolutionPreset preset in RenderResolutionPresets.All)
+        {
+            options.Add(preset.Label);
+        }
+
+        renderResolutionDropdown.AddOptions(options);
+        renderResolutionDropdown.RefreshShownValue();
     }
 
     private void RestoreInitialSettingsFromPersistance()
@@ -188,6 +220,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeBlobScale(settingsManager.GetBlobScaleValue());
         HandleChangeBlobGreyValue(settingsManager.GetBlobGreyColorValue());
         HandleChangeBlobTimerValue(settingsManager.GetBlobTimerValue());
+        HandleChangeRenderResolution(settingsManager.GetRenderTextureWidth(), settingsManager.GetRenderTextureHeight());
     }
 
     private void PopulateMovieDropdown()
@@ -236,6 +269,18 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeBlobTimerValue(blobTimerValue);
     }
 
+    public void ChangeRenderResolution(int presetIndex)
+    {
+        if (presetIndex < 0 || presetIndex >= RenderResolutionPresets.All.Length)
+        {
+            return;
+        }
+
+        RenderResolutionPreset preset = RenderResolutionPresets.All[presetIndex];
+        settingsManager?.SetRenderTextureResolution(preset.Width, preset.Height);
+        HandleChangeRenderResolution(preset.Width, preset.Height);
+    }
+
     private void HandleChangeEyeBiasValue(float eyeBiasValue)
     {
         eyeBiasSlider.GetComponentInChildren<TextMeshProUGUI>().text = eyeBiasValue.ToString("0.00");
@@ -263,6 +308,14 @@ public class DichopticMovieSceneManager : MonoBehaviour
         blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
         blobTimerDuration = blobTimerValue;
         blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0.0");
+    }
+
+    private void HandleChangeRenderResolution(int width, int height)
+    {
+        int presetIndex = RenderResolutionPresets.FindIndex(width, height);
+        videoPlayerRenderTexture.SetResolution(width, height);
+        renderResolutionDropdown.SetValueWithoutNotify(presetIndex);
+        renderResolutionDropdown.RefreshShownValue();
     }
 
     public void LoadMovieButtonHandle()

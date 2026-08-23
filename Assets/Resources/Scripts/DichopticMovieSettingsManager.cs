@@ -2,6 +2,9 @@ using System;
 
 public class DichopticMovieSettingsManager
 {
+    public const int DefaultRenderTextureWidth = 1920;
+    public const int DefaultRenderTextureHeight = 1080;
+
     [Serializable]
     public struct DichopticMovieSettingsStruct
     {
@@ -9,13 +12,17 @@ public class DichopticMovieSettingsManager
         public float BlobScaleValue;
         public float BlobGreyColorValue;
         public float BlobTimerValue;
+        public int RenderTextureWidth;
+        public int RenderTextureHeight;
     }
 
     private const string SETTINGS_FILENAME = "DichopticMovieSettings.cfg";
 
     private DichopticMovieSettingsStruct _dichopticMovieSettings;
 
-    public DichopticMovieSettingsManager(float eyeBiasValue, float blobScaleValue, float blobGreyColorValue, float blobTimerValue)
+    public DichopticMovieSettingsManager(float eyeBiasValue, float blobScaleValue, float blobGreyColorValue,
+        float blobTimerValue, int renderTextureWidth = DefaultRenderTextureWidth,
+        int renderTextureHeight = DefaultRenderTextureHeight)
     {
         _dichopticMovieSettings = new DichopticMovieSettingsStruct
         {
@@ -23,7 +30,11 @@ public class DichopticMovieSettingsManager
             BlobScaleValue = blobScaleValue,
             BlobGreyColorValue = blobGreyColorValue,
             BlobTimerValue = blobTimerValue,
+            RenderTextureWidth = renderTextureWidth,
+            RenderTextureHeight = renderTextureHeight,
         };
+
+        NormalizeRenderTextureResolution();
     }
 
     public void TryRestore()
@@ -41,14 +52,19 @@ public class DichopticMovieSettingsManager
 
     public bool RestoreSettings()
     {
-        bool isSuccess = false;
         DichopticMovieSettingsStruct tempStruct = new();
-        if (SettingsHandler.RestoreSettings(SETTINGS_FILENAME, ref tempStruct))
+        if (!SettingsHandler.RestoreSettings(SETTINGS_FILENAME, ref tempStruct))
         {
-            _dichopticMovieSettings = tempStruct;
-            isSuccess = true;
+            return false;
         }
-        return isSuccess;
+
+        _dichopticMovieSettings = tempStruct;
+        if (NormalizeRenderTextureResolution())
+        {
+            StoreSettings();
+        }
+
+        return true;
     }
 
 
@@ -76,6 +92,13 @@ public class DichopticMovieSettingsManager
         StoreSettings();
     }
 
+    public void SetRenderTextureResolution(int width, int height)
+    {
+        _dichopticMovieSettings.RenderTextureWidth = width;
+        _dichopticMovieSettings.RenderTextureHeight = height;
+        StoreSettings();
+    }
+
     public float GetEyeBiasValue()
     {
         return _dichopticMovieSettings.EyeBiasValue;
@@ -94,5 +117,28 @@ public class DichopticMovieSettingsManager
     public float GetBlobTimerValue()
     {
         return _dichopticMovieSettings.BlobTimerValue;
+    }
+
+    public int GetRenderTextureWidth()
+    {
+        return _dichopticMovieSettings.RenderTextureWidth;
+    }
+
+    public int GetRenderTextureHeight()
+    {
+        return _dichopticMovieSettings.RenderTextureHeight;
+    }
+
+    private bool NormalizeRenderTextureResolution()
+    {
+        if (RenderResolutionPresets.FindIndex(_dichopticMovieSettings.RenderTextureWidth,
+                _dichopticMovieSettings.RenderTextureHeight) >= 0)
+        {
+            return false;
+        }
+
+        _dichopticMovieSettings.RenderTextureWidth = DefaultRenderTextureWidth;
+        _dichopticMovieSettings.RenderTextureHeight = DefaultRenderTextureHeight;
+        return true;
     }
 }
