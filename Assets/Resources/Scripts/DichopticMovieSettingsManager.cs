@@ -14,6 +14,7 @@ public class DichopticMovieSettingsManager
         public float BlobTimerValue;
         public int RenderTextureWidth;
         public int RenderTextureHeight;
+        public bool ShowFrameRate;
     }
 
     private const string SETTINGS_FILENAME = "DichopticMovieSettings.cfg";
@@ -22,7 +23,7 @@ public class DichopticMovieSettingsManager
 
     public DichopticMovieSettingsManager(float eyeBiasValue, float blobScaleValue, float blobGreyColorValue,
         float blobTimerValue, int renderTextureWidth = DefaultRenderTextureWidth,
-        int renderTextureHeight = DefaultRenderTextureHeight)
+        int renderTextureHeight = DefaultRenderTextureHeight, bool showFrameRate = false)
     {
         _dichopticMovieSettings = new DichopticMovieSettingsStruct
         {
@@ -32,6 +33,7 @@ public class DichopticMovieSettingsManager
             BlobTimerValue = blobTimerValue,
             RenderTextureWidth = renderTextureWidth,
             RenderTextureHeight = renderTextureHeight,
+            ShowFrameRate = showFrameRate,
         };
 
         NormalizeRenderTextureResolution();
@@ -99,6 +101,12 @@ public class DichopticMovieSettingsManager
         StoreSettings();
     }
 
+    public void SetShowFrameRate(bool value)
+    {
+        _dichopticMovieSettings.ShowFrameRate = value;
+        StoreSettings();
+    }
+
     public float GetEyeBiasValue()
     {
         return _dichopticMovieSettings.EyeBiasValue;
@@ -127,6 +135,11 @@ public class DichopticMovieSettingsManager
     public int GetRenderTextureHeight()
     {
         return _dichopticMovieSettings.RenderTextureHeight;
+    }
+
+    public bool GetShowFrameRate()
+    {
+        return _dichopticMovieSettings.ShowFrameRate;
     }
 
     private bool NormalizeRenderTextureResolution()
