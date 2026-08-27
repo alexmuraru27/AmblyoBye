@@ -5,7 +5,6 @@ public class DichopticMovieSettingsManager
 {
     public const int DefaultRenderTextureWidth = 1920;
     public const int DefaultRenderTextureHeight = 1080;
-    public const float DefaultBlobOpacity = 1f;
     public const float DefaultLuminance = 1f;
 
     [Serializable]
@@ -14,9 +13,6 @@ public class DichopticMovieSettingsManager
         public float EyeBiasValue;
         public float BlobScaleValue;
         public float BlobGreyColorValue;
-        public float BlobOpacityValue;
-        [XmlIgnore]
-        public bool BlobOpacityValueSpecified;
         public float LuminanceValue;
         [XmlIgnore]
         public bool LuminanceValueSpecified;
@@ -33,15 +29,13 @@ public class DichopticMovieSettingsManager
     public DichopticMovieSettingsManager(float eyeBiasValue, float blobScaleValue, float blobGreyColorValue,
         float blobTimerValue, int renderTextureWidth = DefaultRenderTextureWidth,
         int renderTextureHeight = DefaultRenderTextureHeight, bool showFrameRate = false,
-        float blobOpacityValue = DefaultBlobOpacity, float luminanceValue = DefaultLuminance)
+        float luminanceValue = DefaultLuminance)
     {
         _dichopticMovieSettings = new DichopticMovieSettingsStruct
         {
             EyeBiasValue = eyeBiasValue,
             BlobScaleValue = blobScaleValue,
             BlobGreyColorValue = blobGreyColorValue,
-            BlobOpacityValue = blobOpacityValue,
-            BlobOpacityValueSpecified = true,
             LuminanceValue = luminanceValue,
             LuminanceValueSpecified = true,
             BlobTimerValue = blobTimerValue,
@@ -76,7 +70,7 @@ public class DichopticMovieSettingsManager
 
         _dichopticMovieSettings = tempStruct;
         bool settingsChanged = NormalizeRenderTextureResolution();
-        settingsChanged |= NormalizeBlobVisualSettings();
+        settingsChanged |= NormalizeLuminanceSetting();
         if (settingsChanged)
         {
             StoreSettings();
@@ -101,13 +95,6 @@ public class DichopticMovieSettingsManager
     public void SetBlobGreyColorValue(float value)
     {
         _dichopticMovieSettings.BlobGreyColorValue = value;
-        StoreSettings();
-    }
-
-    public void SetBlobOpacityValue(float value)
-    {
-        _dichopticMovieSettings.BlobOpacityValue = value;
-        _dichopticMovieSettings.BlobOpacityValueSpecified = true;
         StoreSettings();
     }
 
@@ -152,11 +139,6 @@ public class DichopticMovieSettingsManager
         return _dichopticMovieSettings.BlobGreyColorValue;
     }
 
-    public float GetBlobOpacityValue()
-    {
-        return _dichopticMovieSettings.BlobOpacityValue;
-    }
-
     public float GetLuminanceValue()
     {
         return _dichopticMovieSettings.LuminanceValue;
@@ -195,23 +177,15 @@ public class DichopticMovieSettingsManager
         return true;
     }
 
-    private bool NormalizeBlobVisualSettings()
+    private bool NormalizeLuminanceSetting()
     {
-        bool settingsChanged = false;
-        if (!_dichopticMovieSettings.BlobOpacityValueSpecified)
+        if (_dichopticMovieSettings.LuminanceValueSpecified)
         {
-            _dichopticMovieSettings.BlobOpacityValue = DefaultBlobOpacity;
-            _dichopticMovieSettings.BlobOpacityValueSpecified = true;
-            settingsChanged = true;
+            return false;
         }
 
-        if (!_dichopticMovieSettings.LuminanceValueSpecified)
-        {
-            _dichopticMovieSettings.LuminanceValue = DefaultLuminance;
-            _dichopticMovieSettings.LuminanceValueSpecified = true;
-            settingsChanged = true;
-        }
-
-        return settingsChanged;
+        _dichopticMovieSettings.LuminanceValue = DefaultLuminance;
+        _dichopticMovieSettings.LuminanceValueSpecified = true;
+        return true;
     }
 }

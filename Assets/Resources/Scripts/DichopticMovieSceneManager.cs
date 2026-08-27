@@ -71,7 +71,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
     private DichopticMovieSettingsManager settingsManager = null;
     private TMP_Dropdown renderResolutionDropdown;
     private Toggle showFrameRateToggle;
-    private Slider blobOpacitySlider;
     private Slider luminanceSlider;
     private TextMeshProUGUI frameRateTextBox;
     private VideoPlayerRenderTexture videoPlayerRenderTexture;
@@ -128,7 +127,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
         UpdateTimeWatchedText(0);
         InitializeRenderResolutionUI();
         InitializeFrameRateUI();
-        InitializeBlobVisualControlsUI();
+        InitializeLuminanceUI();
         RestoreInitialSettingsFromPersistance();
         PopulateMovieDropdown();
         StartCoroutine(RunBlobChangeTimer());
@@ -170,11 +169,9 @@ public class DichopticMovieSceneManager : MonoBehaviour
         videoPlayer.prepareCompleted += OnVideoPrepared;
     }
 
-    private void InitializeBlobVisualControlsUI()
+    private void InitializeLuminanceUI()
     {
-        blobOpacitySlider = FindNamedComponent<Slider>(settingsUI, "Blob Opacity Slider");
         luminanceSlider = FindNamedComponent<Slider>(settingsUI, "Luminance Slider");
-        blobOpacitySlider.onValueChanged.AddListener(ChangeBlobOpacity);
         luminanceSlider.onValueChanged.AddListener(ChangeLuminance);
     }
 
@@ -224,7 +221,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
                                                     blobScaleSlider.GetComponent<Slider>().value,
                                                     blobGrayColorSlider.GetComponent<Slider>().value,
                                                     blobTimerSlider.GetComponent<Slider>().value,
-                                                    blobOpacityValue: blobOpacitySlider.value,
                                                     luminanceValue: luminanceSlider.value);
         settingsManager.TryRestore();
         RestoreSettingsPanelFromManager(settingsManager);
@@ -266,7 +262,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeEyeBiasValue(settingsManager.GetEyeBiasValue());
         HandleChangeBlobScale(settingsManager.GetBlobScaleValue());
         HandleChangeBlobGreyValue(settingsManager.GetBlobGreyColorValue());
-        HandleChangeBlobOpacity(settingsManager.GetBlobOpacityValue());
         HandleChangeLuminance(settingsManager.GetLuminanceValue());
         HandleChangeBlobTimerValue(settingsManager.GetBlobTimerValue());
         HandleChangeRenderResolution(settingsManager.GetRenderTextureWidth(), settingsManager.GetRenderTextureHeight());
@@ -310,12 +305,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         float greyColorValue = blobGrayColorSlider.GetComponent<Slider>().value;
         settingsManager?.SetBlobGreyColorValue(greyColorValue);
         HandleChangeBlobGreyValue(greyColorValue);
-    }
-
-    private void ChangeBlobOpacity(float blobOpacity)
-    {
-        settingsManager?.SetBlobOpacityValue(blobOpacity);
-        HandleChangeBlobOpacity(blobOpacity);
     }
 
     private void ChangeLuminance(float luminance)
@@ -369,13 +358,6 @@ public class DichopticMovieSceneManager : MonoBehaviour
         blobGrayColorSlider.GetComponent<Slider>().value = greyColorValue;
         blobGrayColorSlider.GetComponentInChildren<TextMeshProUGUI>().text = greyColorValue.ToString("0");
         dichopticFilterMaterial.SetColor("_BlobColor", new Color(greyColorValue / 255, greyColorValue / 255, greyColorValue / 255, 0));
-    }
-
-    private void HandleChangeBlobOpacity(float blobOpacity)
-    {
-        blobOpacitySlider.SetValueWithoutNotify(blobOpacity);
-        blobOpacitySlider.GetComponentInChildren<TextMeshProUGUI>().text = blobOpacity.ToString("0.00");
-        dichopticFilterMaterial.SetFloat("_BlobOpacity", blobOpacity);
     }
 
     private void HandleChangeLuminance(float luminance)
