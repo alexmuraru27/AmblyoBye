@@ -1086,6 +1086,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Renderer: {fileID: 3138722710964612268}
+  m_DichopticFilter: {fileID: 1870555254599047625}
+  m_PlayerBackground: {fileID: 648669676152024981}
   m_RenderTextureWidth: 1920
   m_RenderTextureHeight: 1080
   m_RenderTextureDepth: 0

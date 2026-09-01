@@ -9,6 +9,7 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit.UI;
+using Unity.VRTemplate;
 
 public class DichopticMovieSceneManager : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class DichopticMovieSceneManager : MonoBehaviour
     // OpenXR-mapped controller exposing the XRController layout, e.g. Quest, Pico, Vive, Index, WMR).
     private const string LEFT_THUMBSTICK_CLICK_BINDING = "<XRController>{LeftHand}/{Primary2DAxisClick}";
     private const string RIGHT_THUMBSTICK_CLICK_BINDING = "<XRController>{RightHand}/{Primary2DAxisClick}";
+
+    private static readonly HashSet<string> AllowedMovieExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".asf", ".avi", ".dv", ".m4v", ".mkv", ".mp4", ".mov", ".mpg", ".mpeg", ".ogv", ".vp8",
+        ".webm", ".wmv"
+    };
 
     public static DichopticMovieSceneManager Instance;
 
@@ -57,10 +64,16 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     [SerializeField]
     public TextMeshProUGUI totalPlayedTimeTextBox;
+
     private float sessionSecondsWatched = 0f;
     private float blobTimerDuration = 10;
     private bool isCameraInit = false;
     private DichopticMovieSettingsManager settingsManager = null;
+    private TMP_Dropdown renderResolutionDropdown;
+    private Toggle showFrameRateToggle;
+    private Slider luminanceSlider;
+    private TextMeshProUGUI frameRateTextBox;
+    private VideoPlayerRenderTexture videoPlayerRenderTexture;
 
     private DailyUsageTracker usageTracker = null;
 
@@ -95,6 +108,7 @@ public class DichopticMovieSceneManager : MonoBehaviour
 
     void OnDestroy()
     {
+        videoPlayer.prepareCompleted -= OnVideoPrepared;
         leftThumbstickClickAction.performed -= OnToggleSettingsUIRequested;
         rightThumbstickClickAction.performed -= OnToggleSettingsUIRequested;
         leftThumbstickClickAction.Dispose();
@@ -111,6 +125,9 @@ public class DichopticMovieSceneManager : MonoBehaviour
     {
         versionTextBox.text = "v" + Application.version;
         UpdateTimeWatchedText(0);
+        InitializeRenderResolutionUI();
+        InitializeFrameRateUI();
+        InitializeLuminanceUI();
         RestoreInitialSettingsFromPersistance();
         PopulateMovieDropdown();
         StartCoroutine(RunBlobChangeTimer());
@@ -135,12 +152,76 @@ public class DichopticMovieSceneManager : MonoBehaviour
         totalPlayedTimeTextBox.text = $"Watched: {t.Hours}h {t.Minutes:D2} min";
     }
 
+    private void InitializeRenderResolutionUI()
+    {
+        videoPlayerRenderTexture = videoPlayer.GetComponent<VideoPlayerRenderTexture>();
+        renderResolutionDropdown = FindNamedComponent<TMP_Dropdown>(settingsUI, "Render Resolution Dropdown");
+
+        PopulateRenderResolutionDropdown();
+        renderResolutionDropdown.onValueChanged.AddListener(ChangeRenderResolution);
+    }
+
+    private void InitializeFrameRateUI()
+    {
+        showFrameRateToggle = FindNamedComponent<Toggle>(settingsUI, "Show Frame Rate Toggle");
+        showFrameRateToggle.onValueChanged.AddListener(ChangeShowFrameRate);
+        CreateFrameRateTextBox();
+        videoPlayer.prepareCompleted += OnVideoPrepared;
+    }
+
+    private void InitializeLuminanceUI()
+    {
+        luminanceSlider = FindNamedComponent<Slider>(settingsUI, "Luminance Slider");
+        luminanceSlider.onValueChanged.AddListener(ChangeLuminance);
+    }
+
+    private static T FindNamedComponent<T>(GameObject root, string objectName) where T : Component
+    {
+        return Array.Find(root.GetComponentsInChildren<T>(true), component => component.gameObject.name == objectName);
+    }
+
+    private void PopulateRenderResolutionDropdown()
+    {
+        renderResolutionDropdown.ClearOptions();
+        var options = new List<string>(RenderResolutionPresets.All.Length);
+        foreach (RenderResolutionPreset preset in RenderResolutionPresets.All)
+        {
+            options.Add(preset.Label);
+        }
+
+        renderResolutionDropdown.AddOptions(options);
+        renderResolutionDropdown.RefreshShownValue();
+    }
+
+    private void CreateFrameRateTextBox()
+    {
+        frameRateTextBox = Instantiate(versionTextBox, moviePlayerObject.transform, false);
+        frameRateTextBox.gameObject.name = "Frame Rate Text";
+        frameRateTextBox.text = "-- FPS";
+        frameRateTextBox.fontSize = 20f;
+        frameRateTextBox.enableAutoSizing = false;
+        frameRateTextBox.alignment = TextAlignmentOptions.TopRight;
+        frameRateTextBox.raycastTarget = false;
+
+        RectTransform rectTransform = frameRateTextBox.rectTransform;
+        rectTransform.anchorMin = Vector2.one;
+        rectTransform.anchorMax = Vector2.one;
+        rectTransform.pivot = Vector2.one;
+        rectTransform.anchoredPosition = new Vector2(-20f, -20f);
+        rectTransform.sizeDelta = new Vector2(160f, 36f);
+        rectTransform.localScale = Vector3.one;
+        rectTransform.localRotation = Quaternion.identity;
+        rectTransform.SetAsLastSibling();
+        frameRateTextBox.gameObject.SetActive(false);
+    }
+
     private void RestoreInitialSettingsFromPersistance()
     {
         settingsManager = new DichopticMovieSettingsManager(eyeBiasSlider.GetComponent<Slider>().value,
                                                     blobScaleSlider.GetComponent<Slider>().value,
                                                     blobGrayColorSlider.GetComponent<Slider>().value,
-                                                    blobTimerSlider.GetComponent<Slider>().value);
+                                                    blobTimerSlider.GetComponent<Slider>().value,
+                                                    luminanceValue: luminanceSlider.value);
         settingsManager.TryRestore();
         RestoreSettingsPanelFromManager(settingsManager);
     }
@@ -181,7 +262,10 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeEyeBiasValue(settingsManager.GetEyeBiasValue());
         HandleChangeBlobScale(settingsManager.GetBlobScaleValue());
         HandleChangeBlobGreyValue(settingsManager.GetBlobGreyColorValue());
+        HandleChangeLuminance(settingsManager.GetLuminanceValue());
         HandleChangeBlobTimerValue(settingsManager.GetBlobTimerValue());
+        HandleChangeRenderResolution(settingsManager.GetRenderTextureWidth(), settingsManager.GetRenderTextureHeight());
+        HandleChangeShowFrameRate(settingsManager.GetShowFrameRate());
     }
 
     private void PopulateMovieDropdown()
@@ -190,13 +274,12 @@ public class DichopticMovieSceneManager : MonoBehaviour
         List<string> availableMovies = StorageHandler.GetFileNamesFromDir(TypeSafeDir.Movies);
         // Order by name ignoring the case
         availableMovies.Sort(StringComparer.OrdinalIgnoreCase);
-        List<string> allowedExtensions = new() { ".asf", ".avi", ".dv", ".m4v", ".mp4", ".mov", ".mpg", ".mpeg", ".m4v", ".ogv", ".vp8", ".webm", ".wmv" };
 
         movieListDropdown.ClearOptions();
         movieListDropdown.AddOptions(new List<string> { EMPTY_MOVIE_NAME });
         foreach (string movieFileName in availableMovies)
         {
-            if (allowedExtensions.Contains(Path.GetExtension(movieFileName)))
+            if (AllowedMovieExtensions.Contains(Path.GetExtension(movieFileName)))
             {
                 movieListDropdown.AddOptions(new List<string> { movieFileName });
             }
@@ -224,11 +307,35 @@ public class DichopticMovieSceneManager : MonoBehaviour
         HandleChangeBlobGreyValue(greyColorValue);
     }
 
+    private void ChangeLuminance(float luminance)
+    {
+        settingsManager?.SetLuminanceValue(luminance);
+        HandleChangeLuminance(luminance);
+    }
+
     public void ChangeBlobTimerValue()
     {
         float blobTimerValue = blobTimerSlider.GetComponent<Slider>().value;
         settingsManager?.SetBlobTimerValue(blobTimerValue);
         HandleChangeBlobTimerValue(blobTimerValue);
+    }
+
+    public void ChangeRenderResolution(int presetIndex)
+    {
+        if (presetIndex < 0 || presetIndex >= RenderResolutionPresets.All.Length)
+        {
+            return;
+        }
+
+        RenderResolutionPreset preset = RenderResolutionPresets.All[presetIndex];
+        settingsManager?.SetRenderTextureResolution(preset.Width, preset.Height);
+        HandleChangeRenderResolution(preset.Width, preset.Height);
+    }
+
+    public void ChangeShowFrameRate(bool showFrameRate)
+    {
+        settingsManager?.SetShowFrameRate(showFrameRate);
+        HandleChangeShowFrameRate(showFrameRate);
     }
 
     private void HandleChangeEyeBiasValue(float eyeBiasValue)
@@ -253,11 +360,51 @@ public class DichopticMovieSceneManager : MonoBehaviour
         dichopticFilterMaterial.SetColor("_BlobColor", new Color(greyColorValue / 255, greyColorValue / 255, greyColorValue / 255, 0));
     }
 
+    private void HandleChangeLuminance(float luminance)
+    {
+        luminanceSlider.SetValueWithoutNotify(luminance);
+        luminanceSlider.GetComponentInChildren<TextMeshProUGUI>().text = luminance.ToString("0.00");
+        dichopticFilterMaterial.SetFloat("_Luminance", luminance);
+    }
+
     private void HandleChangeBlobTimerValue(float blobTimerValue)
     {
         blobTimerSlider.GetComponent<Slider>().value = blobTimerValue;
         blobTimerDuration = blobTimerValue;
         blobTimerSlider.GetComponentInChildren<TextMeshProUGUI>().text = blobTimerValue.ToString("0.0");
+    }
+
+    private void HandleChangeRenderResolution(int width, int height)
+    {
+        int presetIndex = RenderResolutionPresets.FindIndex(width, height);
+        videoPlayerRenderTexture.SetResolution(width, height);
+        renderResolutionDropdown.SetValueWithoutNotify(presetIndex);
+        renderResolutionDropdown.RefreshShownValue();
+    }
+
+    private void HandleChangeShowFrameRate(bool showFrameRate)
+    {
+        showFrameRateToggle.SetIsOnWithoutNotify(showFrameRate);
+        frameRateTextBox.gameObject.SetActive(showFrameRate);
+        if (showFrameRate && videoPlayer.isPrepared)
+        {
+            UpdateFrameRateText(videoPlayer);
+        }
+    }
+
+    private void OnVideoPrepared(VideoPlayer preparedVideoPlayer)
+    {
+        if (frameRateTextBox.gameObject.activeSelf)
+        {
+            UpdateFrameRateText(preparedVideoPlayer);
+        }
+    }
+
+    private void UpdateFrameRateText(VideoPlayer preparedVideoPlayer)
+    {
+        frameRateTextBox.text = preparedVideoPlayer.frameRate > 0
+            ? $"{preparedVideoPlayer.frameRate:0.##} FPS"
+            : "-- FPS";
     }
 
     public void LoadMovieButtonHandle()
